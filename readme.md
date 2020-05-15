@@ -1,11 +1,11 @@
-# **Tic Tac Toe with three pawns**
-https://github.com/pawel850m/tictactoe_three_pawns
+# Tic Tac Toe with three pawns
+* https://github.com/pawel850m/tictactoe_three_pawns
 #Opis
 * Gra umożliwia rozgrywkę jednego gracza z komputerem w kółko i krzyżyk z modyfikacją.
 * Modyfikacja polega na dopuszczeniu maksymalnie 3 pionków gracza oraz 3 pionków komputera w grze (razem 6 pionków) - 
 zamiast tradycyjnego modelu, w którym gra kończy się gdy nie ma już dostępnych wolnych pól
 * Z tego względu po osiągnięciu liczby 3 pionków przez każdą ze stron możliwe jest przenoszenie pionków na inne pola.
-* Gra rozpoczyna się od wybrania poziomu, podania imienia oraz wyboru kształtu przez gracza (X lub O)
+* Gra rozpoczyna się od wybrania poziomu trudności, podania imienia oraz wyboru kształtu przez gracza (X lub O)
 * Następnie pierwszy ruch należy do gracza.
 * Po ruchu gracza komputer musi właściwie zareagować niedopuszczając do wygranej gracza ale także sprawiając że może wygrać
 * W pierwszym etapie gry (gdy na planszy są 2 lub mniej pionków każdego z graczy) komputer oblicza odpowiedni ruch
@@ -24,21 +24,21 @@ wystarczająco dużo czasu aby móc wyznaczyć najlepszy z możliwych ruchów. W
 * Po zakończeniu rozgrywki (wygrana jednej ze stron) wyświetlane jest imie gracza jeżeli wygrał oraz gra umożliwia
 rozpoczęcie rozgywki od nowa, przy czym czyszczona jest plansza, możliwy jest ponowny wybór kształtu, podanie imienia 
 oraz wybor poziomu trudnosci.
+* Do rysowania planszy służącej do rogrywki zastosowana została biblioteka tkinter.
 
 #Testy
 * Gra uniemożliwia wybór kształtu innego niż X lub O  
 * Gra umożliwia wybór poziomu trudności - tak aby była 
 możliwość zwycięstwa gracza.
 * W pierwszym etapie gry (gdy na planszy jest do 2 pionków każdej ze stron) gra uniemożliwia usunięcie z pola zarówno
-pionka komputera jak i gracza)
+pionka komputera jak i gracza
 * W drugim etapie gra uniemożliwia usunięcie pionka komputera i dodanie pionka gracza (2 pionki komputera i 4 
 pionki gracza w grze)
+* Gracz nie może również usunąć dwóch swoich pionków.
+* Gra uniemożliwia dodanie do planszy 4. pionka przez gracza pomijając usunięcie.
 * Nie można przenieść pionka na pole należące do komputera.
 * Komputer nie może usunąć pionka należącego do gracza ani ustawić pionka na polu gracza.
-* Gra uwzględnia wszystkie możliwości wygranej zarówno po stronie gracza jak i komputera (pion, poziom, ukos).
-* Po zakończonej rozgrywce możliwe jest ponowne rozpoczęcie nowej z wymazaną planszą; możliwy ponowny wybór poziomu trudności,
+* Gra uwzględnia wszystkie możliwości wygranej zarówno po stronie gracza jak i komputera (pion, poziom, ukos) 
+i odpowiednio to sygnalizuje.
+* Po zakończonej rozgrywce możliwe jest ponowne rozpoczęcie nowej z wymazaną planszą bez zamykania programu; możliwy ponowny wybór poziomu trudności,
 kształtu oraz napisanie imienia. 
-* Gra uniemożliwia dodanie do planszy 4. pionka przez gracza.
-
-
-
