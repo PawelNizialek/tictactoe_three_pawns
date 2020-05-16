@@ -17,6 +17,7 @@ level = 0
 
 root = Tk()
 root.resizable(False, False)
+root.title("3pawns tictactoe")
 Main = Frame(root, width=400, height=300)
 Main.grid(row=1, column=0)
 Top = Frame(root, width=100, height=1)
@@ -30,6 +31,10 @@ def click(buttons, number):
         global update
         global place_delete
         player(number)
+        if win() == -1:
+            win_signal(player_shape)
+        if win() == 1:
+            win_signal(computer_shape)
         if update:
             update = 0
             place_delete = 0
@@ -65,12 +70,10 @@ def player(number):
         move = move - 1
         if move in range(0, 9):
             if GameBoard.board[move] == computer_shape or GameBoard.board[move] == player_shape:
-                print("already exists; try again")
                 return 0
             GameBoard.board[move] = player_shape
             update = 1
         else:
-            print("Try to type a number(1;9)")
             return 0
     else:
         if place_delete == 0:
@@ -78,26 +81,21 @@ def player(number):
             move = move - 1
             if move in range(0, 9):
                 if GameBoard.board[move] == computer_shape:
-                    print("computer's pawn; try again")
                     return 0
                 if GameBoard.board[move] == ' ':
-                    print("blank place")
                     return 0
                 if GameBoard.board[move] == player_shape and place_delete == 0:
                     GameBoard.board[move] = ' '
                     button_number_changer(move, ' ')
-                    print("You deleted place number: ", move + 1)
                     place_delete = 1
                     return 0
             else:
-                print("Try to type a number(1;9)")
                 return 0
 
         move = number
         move = move - 1
         if move in range(0, 9):
             if GameBoard.board[move] == computer_shape or GameBoard.board[move] == player_shape:
-                print("already exists; try again")
                 return 0
             GameBoard.board[move] = player_shape
             update = 1
@@ -214,9 +212,10 @@ def computer():
     global pawns_limit
     global time_checker
     if level == 0:
-        seconds_to_check = 1
+        seconds_to_check = 0.1
     elif level == 1:
         seconds_to_check = 0.5
+
     points = -1
     time_checker = 0
     start_time = time.time()
@@ -239,7 +238,7 @@ def computer():
                 easy_flag = 0
                 for computer_shape_number in range(3):
                     if level == 0 and easy_flag == 0:
-                        computer_shape_number = 1
+                        #computer_shape_number = 1
                         easy_flag = 1
                     remove = shape_tab_edit(computer_shape_number, computer_shape)
                     GameBoardCopy.board[remove] = ' '
@@ -276,7 +275,6 @@ def computer():
                 if best_score <= points:
                     best_score = points
                     move = i
-        print(move)
         GameBoard.board[move] = computer_shape
         button_number_changer(move, computer_shape)
 
@@ -286,73 +284,82 @@ def computer():
 
 def win_signal(shape):
     global game_run
+
     if GameBoard.board[0] == shape and GameBoard.board[1] == shape and GameBoard.board[2] == shape:
         button1.configure(fg='red')
         button2.configure(fg='red')
         button3.configure(fg='red')
+
     elif GameBoard.board[3] == shape and GameBoard.board[4] == shape and GameBoard.board[5] == shape:
         button4.configure(fg='red')
         button5.configure(fg='red')
         button6.configure(fg='red')
+
     elif GameBoard.board[6] == shape and GameBoard.board[7] == shape and GameBoard.board[8] == shape:
         button7.configure(fg='red')
         button8.configure(fg='red')
         button9.configure(fg='red')
+
     elif GameBoard.board[0] == shape and GameBoard.board[3] == shape and GameBoard.board[6] == shape:
         button1.configure(fg='red')
         button4.configure(fg='red')
         button7.configure(fg='red')
+
     elif GameBoard.board[1] == shape and GameBoard.board[4] == shape and GameBoard.board[7] == shape:
         button2.configure(fg='red')
         button5.configure(fg='red')
         button8.configure(fg='red')
+
     elif GameBoard.board[2] == shape and GameBoard.board[5] == shape and GameBoard.board[8] == shape:
         button3.configure(fg='red')
         button6.configure(fg='red')
         button9.configure(fg='red')
+
     elif GameBoard.board[0] == shape and GameBoard.board[4] == shape and GameBoard.board[8] == shape:
         button1.configure(fg='red')
         button5.configure(fg='red')
         button9.configure(fg='red')
+
     elif GameBoard.board[2] == shape and GameBoard.board[4] == shape and GameBoard.board[6] == shape:
         button3.configure(fg='red')
         button5.configure(fg='red')
         button7.configure(fg='red')
+
     game_run = 0
 
 
-button1 = Button(Board, text=" ", height=1, width=3, font=('CourierNew 30 bold'), bg="light gray",
+button1 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button1, 1))
 button1.grid(row=2, column=0)
-button2 = Button(Board, text=" ", height=1, width=3, font=('CourierNew 30 bold'), bg="light gray",
+button2 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button2, 2))
 button2.grid(row=2, column=1)
 
-button3 = Button(Board, text=" ", height=1, width=3, font=('CourierNew 30 bold'), bg="light gray",
+button3 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button3, 3))
 button3.grid(row=2, column=2)
 
-button4 = Button(Board, text=" ", height=1, width=3, font=('CourierNew 30 bold'), bg="light gray",
+button4 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button4, 4))
 button4.grid(row=3, column=0)
 
-button5 = Button(Board, text=" ", height=1, width=3, font=('CourierNew 30 bold'), bg="light gray",
+button5 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button5, 5))
 button5.grid(row=3, column=1)
 
-button6 = Button(Board, text=" ", height=1, width=3, font=('CourierNew 30 bold'), bg="light gray",
+button6 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button6, 6))
 button6.grid(row=3, column=2)
 
-button7 = Button(Board, text=" ", height=1, width=3, font=('CourierNew 30 bold'), bg="light gray",
+button7 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button7, 7))
 button7.grid(row=4, column=0)
 
-button8 = Button(Board, text=" ", height=1, width=3, font=('CourierNew 30 bold'), bg="light gray",
+button8 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button8, 8))
 button8.grid(row=4, column=1)
 
-button9 = Button(Board, text=" ", height=1, width=3, font=('CourierNew 30 bold'), bg="light gray",
+button9 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button9, 9))
 button9.grid(row=4, column=2)
 
@@ -361,9 +368,11 @@ def reset():
     global place_delete
     global pawns_limit
     global game_run
+
     game_run = 1
     pawns_limit = 0
     place_delete = 0
+
     button_number_changer(0, " ")
     button_number_changer(1, " ")
     button_number_changer(2, " ")
@@ -373,6 +382,7 @@ def reset():
     button_number_changer(6, " ")
     button_number_changer(7, " ")
     button_number_changer(8, " ")
+
     button1.configure(fg='black')
     button2.configure(fg='black')
     button3.configure(fg='black')
@@ -390,7 +400,9 @@ def main(shape_number, level_number):
     global player_shape
     global computer_shape
     global level
+
     reset()
+
     if level_number.get() == 1:
         level = 0
     elif level_number.get() == 2:
@@ -412,9 +424,9 @@ menubar = Menu(Top)
 file_menu = Menu(menubar, tearoff=0)
 file_menu.add_command(label="Exit", command=root.quit())
 menubar.add_cascade(label="File", menu=file_menu)
+
 game_menu = Menu(menubar, tearoff=0)
 game_menu.add_command(label="StartGame", command=lambda: main(shape_number, level_number))
-submenu = Menu(file_menu, tearoff=0)
 game_menu2 = Menu(game_menu, tearoff=0)
 game_menu3 = Menu(game_menu, tearoff=0)
 game_menu2.add_radiobutton(label="Easy", variable=level_number, value=1)
