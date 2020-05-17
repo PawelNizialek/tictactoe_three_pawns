@@ -31,15 +31,18 @@ def click(buttons, number):
         global update
         global place_delete
         player(number)
-        if win() == -1:
-            win_signal(player_shape)
-        if win() == 1:
-            win_signal(computer_shape)
         if update:
             update = 0
             place_delete = 0
             buttons["text"] = player_shape
-            computer()
+            if win() == -1:
+                win_signal(player_shape)
+                return 0
+            elif win() == 1:
+                win_signal(computer_shape)
+                return 0
+            else:
+                computer()
         if win() == -1:
             win_signal(player_shape)
         if win() == 1:
@@ -156,11 +159,14 @@ def minmax_for_three_pawns(seconds, min_max_time, depth=0, max=1, it=0):
     result = GameBoardCopy.win_checker(player_shape, computer_shape)
     if result is not None:
         return result
+    if level == 3:
+        if depth == 0:
+            return 0
     if level == 0:
-        if depth == 2:
+        if depth == 1:
             return 0
     else:
-        if depth == 6:
+        if depth == 4:
             return 0
 
     if time.time() - first_time > seconds_to_check / 9:
@@ -211,11 +217,10 @@ def computer():
         GameBoardCopy.board[i] = GameBoard.board[i]
     global pawns_limit
     global time_checker
-    if level == 0:
+    if level == 0 or level == 3:
         seconds_to_check = 0.1
     elif level == 1:
-        seconds_to_check = 0.5
-
+        seconds_to_check = 7.2
     points = -1
     time_checker = 0
     start_time = time.time()
@@ -331,7 +336,7 @@ def win_signal(shape):
 button1 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
                  command=lambda: click(button1, 1))
 button1.grid(row=2, column=0)
-button2 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
+button2 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="gray80",
                  command=lambda: click(button2, 2))
 button2.grid(row=2, column=1)
 
@@ -339,7 +344,7 @@ button3 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', 
                  command=lambda: click(button3, 3))
 button3.grid(row=2, column=2)
 
-button4 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
+button4 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="gray80",
                  command=lambda: click(button4, 4))
 button4.grid(row=3, column=0)
 
@@ -347,7 +352,7 @@ button5 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', 
                  command=lambda: click(button5, 5))
 button5.grid(row=3, column=1)
 
-button6 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
+button6 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="gray80",
                  command=lambda: click(button6, 6))
 button6.grid(row=3, column=2)
 
@@ -355,7 +360,7 @@ button7 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', 
                  command=lambda: click(button7, 7))
 button7.grid(row=4, column=0)
 
-button8 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="light gray",
+button8 = Button(Board, text=" ", height=1, width=3, font='CourierNew 30 bold', bg="gray80",
                  command=lambda: click(button8, 8))
 button8.grid(row=4, column=1)
 
@@ -407,6 +412,8 @@ def main(shape_number, level_number):
         level = 0
     elif level_number.get() == 2:
         level = 1
+    elif level_number.get() == 3:
+        level = 3
     if shape_number.get() == 1:
         player_shape = "X"
         computer_shape = "O"
@@ -429,7 +436,8 @@ game_menu = Menu(menubar, tearoff=0)
 game_menu.add_command(label="StartGame", command=lambda: main(shape_number, level_number))
 game_menu2 = Menu(game_menu, tearoff=0)
 game_menu3 = Menu(game_menu, tearoff=0)
-game_menu2.add_radiobutton(label="Easy", variable=level_number, value=1)
+game_menu2.add_radiobutton(label="Easy", variable=level_number, value=3)
+game_menu2.add_radiobutton(label="Medium", variable=level_number, value=1)
 game_menu2.add_radiobutton(label="Hard", variable=level_number, value=2)
 game_menu3.add_radiobutton(label="X", variable=shape_number, value=1)
 game_menu3.add_radiobutton(label="O", variable=shape_number, value=2)
@@ -438,5 +446,6 @@ game_menu.add_cascade(label="Shape", menu=game_menu3)
 menubar.add_cascade(label="Game", menu=game_menu)
 
 root.config(menu=menubar)
+
 
 root.mainloop()
