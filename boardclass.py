@@ -4,12 +4,12 @@ class Board:
     place_delete = 0
     game_run = 0
     pawns_limit = 0
-    #time_checker = 0
     shape_tab = []
     computer_shape = 'O'
     player_shape = 'X'
     level = 0
     button_list = []
+
     def __init__(self):
         self.board = [' ', " ", " ", " ", ' ', " ", " ", " ", ' ']
 
