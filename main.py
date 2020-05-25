@@ -8,10 +8,12 @@ TIME_TO_THINK_EASY_MED = 0.1
 BEST_MOVE_MAX_SCORE = 10
 BEST_MOVE_MIN_SCORE = -10
 NUMBER_OF_BUTTONS_TO_WIN = 3
+EASY = 1
+MEDIUM = 2
+HARD = 3
 
 GameBoard = bc.Board()
 GameBoardCopy = bc.Board()
-
 root = Tk()
 root.resizable(False, False)
 root.title("3pawns tictactoe")
@@ -40,7 +42,7 @@ def click(buttons, number):
                 computer()
         if win() == -1:
             win_signal(bc.Board.player_shape)
-        if win() == 1:
+        elif win() == 1:
             win_signal(bc.Board.computer_shape)
 
 
@@ -127,28 +129,30 @@ def minmax(depth=0, max_min=1):
         return best_score
 
 
-def minmax_for_three_pawns(seconds, min_max_time, depth=0, max=1, it=0):
-    seconds_to_check = seconds
-    first_time = min_max_time
+def minmax_for_three_pawns(min_max_time, depth=0, max=1, it=0):
+    time_start_algorithm = min_max_time
     pawn_to_remove = it
     result = GameBoardCopy.win_checker(bc.Board.player_shape, bc.Board.computer_shape)
     if result is not None:
         return result
-    if bc.Board.level == 3:
+    if bc.Board.level == EASY:
+        seconds_to_check = TIME_TO_THINK_EASY_MED
         if depth == 0:
             return 0
-    if bc.Board.level == 0:
+    if bc.Board.level == MEDIUM:
+        seconds_to_check = TIME_TO_THINK_EASY_MED
         if depth == 1:
             return 0
     else:
+        seconds_to_check = TIME_TO_THINK
         if depth == 4:
             return 0
 
-    if time.time() - first_time > seconds_to_check / 9:
+    if time.time() - time_start_algorithm > seconds_to_check / NUMBER_OF_BUTTONS:
         return 0
 
     if max:
-        best_score = -10
+        best_score = BEST_MOVE_MIN_SCORE
         for i in range(NUMBER_OF_BUTTONS):
             if GameBoardCopy.board[i] == " ":
                 for h in range(NUMBER_OF_BUTTONS_TO_WIN):
@@ -156,7 +160,7 @@ def minmax_for_three_pawns(seconds, min_max_time, depth=0, max=1, it=0):
                     GameBoardCopy.board[u] = " "
                     GameBoardCopy.board[i] = bc.Board.computer_shape
 
-                    score = minmax_for_three_pawns(seconds_to_check, first_time, depth + 1, 0, pawn_to_remove)
+                    score = minmax_for_three_pawns(time_start_algorithm, depth + 1, 0, pawn_to_remove)
 
                     GameBoardCopy.board[u] = bc.Board.computer_shape
                     GameBoardCopy.board[i] = " "
@@ -176,7 +180,7 @@ def minmax_for_three_pawns(seconds, min_max_time, depth=0, max=1, it=0):
                     GameBoardCopy.board[u] = " "
                     GameBoardCopy.board[i] = bc.Board.player_shape
 
-                    score = minmax_for_three_pawns(seconds_to_check, first_time, depth + 1, 1, pawn_to_remove)
+                    score = minmax_for_three_pawns(time_start_algorithm, depth + 1, 1, pawn_to_remove)
 
                     GameBoardCopy.board[u] = bc.Board.player_shape
                     GameBoardCopy.board[i] = " "
@@ -190,10 +194,7 @@ def minmax_for_three_pawns(seconds, min_max_time, depth=0, max=1, it=0):
 def computer():
     for i in range(NUMBER_OF_BUTTONS):
         GameBoardCopy.board[i] = GameBoard.board[i]
-    seconds_to_check = TIME_TO_THINK_EASY_MED
-    if bc.Board.level == 1:
-        seconds_to_check = TIME_TO_THINK
-    bc.Board.time_checker = 0
+    #bc.Board.time_checker = 0
     best_place_to_remove = 0
     best_score = BEST_MOVE_MIN_SCORE
     points = -1
@@ -214,7 +215,7 @@ def computer():
                     GameBoardCopy.board[i] = bc.Board.computer_shape
 
                     min_max_time = time.time()
-                    points = minmax_for_three_pawns(seconds_to_check, min_max_time, 0, 0, computer_shape_number)
+                    points = minmax_for_three_pawns(min_max_time, 0, 0, computer_shape_number)
 
                     GameBoardCopy.board[remove] = bc.Board.computer_shape
                     GameBoardCopy.board[i] = ' '
@@ -246,7 +247,7 @@ def computer():
         GameBoard.board[move] = bc.Board.computer_shape
         button_number_changer(move, bc.Board.computer_shape)
 
-    for j in range(len(bc.Board.shape_tab)):
+    for j in bc.Board.shape_tab:
         del bc.Board.shape_tab[0]
 
 
@@ -326,12 +327,12 @@ def reset():
 
 def main(shape_number, level_number):
     reset()
-    if level_number.get() == 1:
-        bc.Board.level = 0
-    elif level_number.get() == 2:
-        bc.Board.level = 1
-    elif level_number.get() == 3:
-        bc.Board.level = 3
+    if level_number.get() == EASY:
+        bc.Board.level = EASY
+    elif level_number.get() == MEDIUM:
+        bc.Board.level = MEDIUM
+    elif level_number.get() == HARD:
+        bc.Board.level = HARD
     if shape_number.get() == 1:
         bc.Board.player_shape = "X"
         bc.Board.computer_shape = "O"
@@ -342,7 +343,7 @@ def main(shape_number, level_number):
 
 level_number = IntVar()
 shape_number = IntVar()
-level_number.set(2)
+level_number.set(HARD)
 shape_number.set(1)
 
 menubar = Menu(Top)
@@ -354,9 +355,9 @@ game_menu = Menu(menubar, tearoff=0)
 game_menu.add_command(label="StartGame", command=lambda: main(shape_number, level_number))
 game_menu2 = Menu(game_menu, tearoff=0)
 game_menu3 = Menu(game_menu, tearoff=0)
-game_menu2.add_radiobutton(label="Easy", variable=level_number, value=3)
-game_menu2.add_radiobutton(label="Medium", variable=level_number, value=1)
-game_menu2.add_radiobutton(label="Hard", variable=level_number, value=2)
+game_menu2.add_radiobutton(label="Easy", variable=level_number, value=EASY)
+game_menu2.add_radiobutton(label="Medium", variable=level_number, value=MEDIUM)
+game_menu2.add_radiobutton(label="Hard", variable=level_number, value=HARD)
 game_menu3.add_radiobutton(label="X", variable=shape_number, value=1)
 game_menu3.add_radiobutton(label="O", variable=shape_number, value=2)
 game_menu.add_cascade(label="Level", menu=game_menu2)
