@@ -27,7 +27,7 @@ Board.pack(side=tk.LEFT)
 
 def click(buttons, number):
     """
-    mouse click
+    Reakcja na naciśnięty przycisk.
     """
     if bc.Board.game_run:
         player(number)
@@ -49,7 +49,7 @@ def click(buttons, number):
 
 def win():
     """
-        win checker
+        Sprawdzenie wygranej.
     """
     for i in range(NUMBER_OF_BUTTONS):
         GameBoardCopy.board[i] = GameBoard.board[i]
@@ -58,7 +58,7 @@ def win():
 
 def shape_tab_edit(button_number, shape):
     """
-        add or delete text on button
+        Zwraca indeks listy przechowującej pionki gracza lub komputera.
     """
     for _ in range(len(bc.Board.shape_tab)):
         del bc.Board.shape_tab[0]
@@ -70,7 +70,7 @@ def shape_tab_edit(button_number, shape):
 
 def player(number):
     """
-        player move
+        Odpowiada za możliwość poprawnego ruchu gracza.
     """
     if bc.Board.pawns_limit == 0:
         move = int(number)
@@ -107,14 +107,14 @@ def player(number):
 
 def button_number_changer(number_to_change, shape):
     """
-        add shape to the button
+        Zmiana wyswietlanego tekstu na przycisku.
     """
     bc.Board.button_list[number_to_change]['text'] = shape
 
 
 def minmax(depth=0, max_min=1):
     """
-        best move
+        Zwraca indeks najlepszego posunięcia dla komputera.
     """
     result = GameBoardCopy.win_checker(bc.Board.player_shape, bc.Board.computer_shape)
     if result is not None:
@@ -143,7 +143,7 @@ def minmax(depth=0, max_min=1):
 
 def minmax_for_three_pawns(min_max_time, depth=0, max=1, place_number=0):
     """
-        best move (2. part)
+        Zwraca indeks najlepszego posunięcia komputera, gdy na planszy są po trzy pionki każdej ze stron.
     """
     time_start_min_max = min_max_time
     pawn_to_remove = place_number
@@ -208,7 +208,7 @@ def minmax_for_three_pawns(min_max_time, depth=0, max=1, place_number=0):
 
 def computer():
     """
-        computer move
+        Odpowiada za właściwy ruch komputera.
     """
     for i in range(NUMBER_OF_BUTTONS):
         GameBoardCopy.board[i] = GameBoard.board[i]
@@ -270,8 +270,9 @@ def computer():
 
 def win_signal(shape):
     """
-        color buttons
-        reset
+        Sprawdzenie, które pionki są wygrywające.
+        Zaznaczenie wygranej.
+        Reset ustawień.
     """
     win_list = (0, 0, 0)
     if GameBoard.board[0] == shape and GameBoard.board[1] == shape \
@@ -306,55 +307,14 @@ def win_signal(shape):
             and GameBoard.board[6] == shape:
         win_list = (2, 4, 6)
     for i in range(NUMBER_OF_BUTTONS_TO_WIN):
-        bc.Board.button_list[win_list[i]].configure(fg='red')
+        bc.Board.button_list[win_list[i]].configure(fg='orange red')
 
     bc.Board.game_run = 0
 
 
-bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                      font='CourierNew 30 bold', bg="light gray",
-                                      command=lambda: click(bc.Board.button_list[0], 1)))
-bc.Board.button_list[0].grid(row=2, column=0)
-
-bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                      font='CourierNew 30 bold', bg="light gray",
-                                      command=lambda: click(bc.Board.button_list[1], 2)))
-bc.Board.button_list[1].grid(row=2, column=1)
-bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                      font='CourierNew 30 bold', bg="light gray",
-                                      command=lambda: click(bc.Board.button_list[2], 3)))
-bc.Board.button_list[2].grid(row=2, column=2)
-bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                      font='CourierNew 30 bold', bg="light gray",
-                                      command=lambda: click(bc.Board.button_list[3], 4)))
-bc.Board.button_list[3].grid(row=3, column=0)
-
-bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                      font='CourierNew 30 bold', bg="light gray",
-                                      command=lambda: click(bc.Board.button_list[4], 5)))
-bc.Board.button_list[4].grid(row=3, column=1)
-bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                      font='CourierNew 30 bold', bg="light gray",
-                                      command=lambda: click(bc.Board.button_list[5], 6)))
-bc.Board.button_list[5].grid(row=3, column=2)
-bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                      font='CourierNew 30 bold', bg="light gray",
-                                      command=lambda: click(bc.Board.button_list[6], 7)))
-bc.Board.button_list[6].grid(row=4, column=0)
-
-bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                      font='CourierNew 30 bold', bg="light gray",
-                                      command=lambda: click(bc.Board.button_list[7], 8)))
-bc.Board.button_list[7].grid(row=4, column=1)
-bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                      font='CourierNew 30 bold', bg="light gray",
-                                      command=lambda: click(bc.Board.button_list[8], 9)))
-bc.Board.button_list[8].grid(row=4, column=2)
-
-
 def reset():
     """
-        clear board and reset
+        Reset ustawień.
     """
     bc.Board.game_run = 1
     bc.Board.pawns_limit = 0
@@ -362,13 +322,15 @@ def reset():
 
     for i in range(NUMBER_OF_BUTTONS):
         button_number_changer(i, " ")
-        bc.Board.button_list[i].configure(fg='black')
+        bc.Board.button_list[i].configure(fg='grey20')
         GameBoard.board[i] = " "
 
 
-def main(shape_number, level_number):
+def set_game(shape_number, level_number):
     """
-        change level and shape
+        Reset ustawień.
+        Ustawienie poziomu trudności.
+        Ustawienie kształtu.
     """
     reset()
     if level_number.get() == EASY:
@@ -385,29 +347,81 @@ def main(shape_number, level_number):
         bc.Board.computer_shape = "X"
 
 
-level_number = tk.IntVar()
-shape_number = tk.IntVar()
-level_number.set(HARD)
-shape_number.set(1)
+def show_boardgame():
+    """
+            Wyświetlanie okienka z grą.
+    """
+    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                          font='CourierNew 30 bold', bg="light gray",
+                                          command=lambda: click(bc.Board.button_list[0], 1)))
+    bc.Board.button_list[0].grid(row=2, column=0)
 
-menubar = tk.Menu(Top)
-file_menu = tk.Menu(menubar, tearoff=0)
-file_menu.add_command(label="Exit", command=root.quit())
-menubar.add_cascade(label="File", menu=file_menu)
+    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                          font='CourierNew 30 bold', bg="light gray",
+                                          command=lambda: click(bc.Board.button_list[1], 2)))
+    bc.Board.button_list[1].grid(row=2, column=1)
+    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                          font='CourierNew 30 bold', bg="light gray",
+                                          command=lambda: click(bc.Board.button_list[2], 3)))
+    bc.Board.button_list[2].grid(row=2, column=2)
+    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                          font='CourierNew 30 bold', bg="light gray",
+                                          command=lambda: click(bc.Board.button_list[3], 4)))
+    bc.Board.button_list[3].grid(row=3, column=0)
 
-game_menu = tk.Menu(menubar, tearoff=0)
-game_menu.add_command(label="StartGame", command=lambda: main(shape_number, level_number))
-game_menu2 = tk.Menu(game_menu, tearoff=0)
-game_menu3 = tk.Menu(game_menu, tearoff=0)
-game_menu2.add_radiobutton(label="Easy", variable=level_number, value=EASY)
-game_menu2.add_radiobutton(label="Medium", variable=level_number, value=MEDIUM)
-game_menu2.add_radiobutton(label="Hard", variable=level_number, value=HARD)
-game_menu3.add_radiobutton(label="X", variable=shape_number, value=1)
-game_menu3.add_radiobutton(label="O", variable=shape_number, value=2)
-game_menu.add_cascade(label="Level", menu=game_menu2)
-game_menu.add_cascade(label="Shape", menu=game_menu3)
-menubar.add_cascade(label="Game", menu=game_menu)
+    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                          font='CourierNew 30 bold', bg="light gray",
+                                          command=lambda: click(bc.Board.button_list[4], 5)))
+    bc.Board.button_list[4].grid(row=3, column=1)
+    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                          font='CourierNew 30 bold', bg="light gray",
+                                          command=lambda: click(bc.Board.button_list[5], 6)))
+    bc.Board.button_list[5].grid(row=3, column=2)
+    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                          font='CourierNew 30 bold', bg="light gray",
+                                          command=lambda: click(bc.Board.button_list[6], 7)))
+    bc.Board.button_list[6].grid(row=4, column=0)
 
-root.config(menu=menubar)
+    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                          font='CourierNew 30 bold', bg="light gray",
+                                          command=lambda: click(bc.Board.button_list[7], 8)))
+    bc.Board.button_list[7].grid(row=4, column=1)
+    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                          font='CourierNew 30 bold', bg="light gray",
+                                          command=lambda: click(bc.Board.button_list[8], 9)))
+    bc.Board.button_list[8].grid(row=4, column=2)
+
+    level_number = tk.IntVar()
+    shape_number = tk.IntVar()
+    level_number.set(HARD)
+    shape_number.set(1)
+
+    menubar = tk.Menu(Top)
+    file_menu = tk.Menu(menubar, tearoff=0)
+    file_menu.add_command(label="Exit", command=root.quit())
+    menubar.add_cascade(label="File", menu=file_menu)
+
+    game_menu = tk.Menu(menubar, tearoff=0)
+    game_menu.add_command(label="StartGame", command=lambda: set_game(shape_number, level_number))
+    game_menu2 = tk.Menu(game_menu, tearoff=0)
+    game_menu3 = tk.Menu(game_menu, tearoff=0)
+    game_menu2.add_radiobutton(label="Easy", variable=level_number, value=EASY)
+    game_menu2.add_radiobutton(label="Medium", variable=level_number, value=MEDIUM)
+    game_menu2.add_radiobutton(label="Hard", variable=level_number, value=HARD)
+    game_menu3.add_radiobutton(label="X", variable=shape_number, value=1)
+    game_menu3.add_radiobutton(label="O", variable=shape_number, value=2)
+    game_menu.add_cascade(label="Level", menu=game_menu2)
+    game_menu.add_cascade(label="Shape", menu=game_menu3)
+    menubar.add_cascade(label="Game", menu=game_menu)
+
+    root.config(menu=menubar)
+
+
+def main():
+    show_boardgame()
+
+
+if __name__ == '__main__':
+    main()
 
 root.mainloop()

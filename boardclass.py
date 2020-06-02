@@ -1,5 +1,13 @@
+"""
+    Przechowuje planszę do gry.
+"""
+
 
 class Board:
+    """
+        Plansza do gry.
+        Sprawdzenie wygranej.
+    """
     update = 0
     place_delete = 0
     game_run = 0
@@ -14,36 +22,44 @@ class Board:
         self.board = [' ', " ", " ", " ", ' ', " ", " ", " ", ' ']
 
     def modify(self, place_number, shape):
+        """
+            Ustawienie pionka na planszy.
+        """
         self.board[place_number] = shape
 
-    def draw_board(self):
-        print()
-        print(self.board[0], "|", self.board[1], "|", self.board[2])
-        print("--|---|--")
-        print(self.board[3], "|", self.board[4], "|", self.board[5])
-        print("--|---|--")
-        print(self.board[6], "|", self.board[7], "|", self.board[8])
-
-    def win_checker(self, player_shape0, computer_shape0):
+    def win_checker(self, shape_player, shape_computer):
+        """
+           Sprawdzenie czy podane ustwienie jest wygrywające.
+           Zwraca 1 jeśli wygrana komputera.
+           Zwraca -1 jeśli przegrana.
+           Zwraca 0 jeśli remis.
+        """
         count = 0
-        for x in range(0, 3):
-            if self.board[x + 6] != " " and self.board[x] == self.board[x + 3] and self.board[x] == self.board[x + 6]:
-                if self.board[x] == player_shape0:
-                    return -1
-                return 1
-        if (self.board[2] == self.board[4] and self.board[4] == self.board[6]) or (
-                self.board[0] == self.board[4] and self.board[4] == self.board[8]):
-            if self.board[4] == player_shape0:
-                return -1
-            if self.board[4] == computer_shape0:
-                return 1
-        for x in range(0, 7, 3):
-            if self.board[x + 2] != " " and self.board[x] == self.board[x + 1] and self.board[x] == self.board[x + 2]:
-                if self.board[x] == player_shape0:
+        point = 1
+        for i in range(0, 3):
+            if (self.board[i + 6] != " " and self.board[i] == self.board[i + 3]
+                    and self.board[i] == self.board[i + 6]):
+                if self.board[i] == shape_player:
+                    point = -1
+                return point
+        point = 0
+        if (self.board[4] != " " and self.board[2] == self.board[4]
+                and self.board[4] == self.board[6] or (self.board[0] == self.board[4]
+                                                       and self.board[4] == self.board[8])):
+            if self.board[4] == shape_player:
+                point = -1
+            if self.board[4] == shape_computer:
+                point = 1
+            return point
+        for i in range(0, 7, 3):
+            if (self.board[i + 2] != " " and self.board[i] == self.board[i + 1]
+                    and self.board[i] == self.board[i + 2]):
+                if self.board[i] == shape_player:
                     return -1
                 return 1
         for i in range(0, 9):
             if self.board[i] != " ":
                 count = count + 1
         if count == 9:
-            return 0
+            return point
+        return None
