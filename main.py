@@ -322,7 +322,7 @@ def reset():
 
     for i in range(NUMBER_OF_BUTTONS):
         button_number_changer(i, " ")
-        bc.Board.button_list[i].configure(fg='grey20')
+        bc.Board.button_list[i].configure(fg='midnight blue')
         GameBoard.board[i] = " "
 
 
@@ -357,7 +357,7 @@ def show_boardgame():
     bc.Board.button_list[0].grid(row=2, column=0)
 
     bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="light gray",
+                                          font='CourierNew 30 bold', bg="grey80",
                                           command=lambda: click(bc.Board.button_list[1], 2)))
     bc.Board.button_list[1].grid(row=2, column=1)
     bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
@@ -365,7 +365,7 @@ def show_boardgame():
                                           command=lambda: click(bc.Board.button_list[2], 3)))
     bc.Board.button_list[2].grid(row=2, column=2)
     bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="light gray",
+                                          font='CourierNew 30 bold', bg="grey80",
                                           command=lambda: click(bc.Board.button_list[3], 4)))
     bc.Board.button_list[3].grid(row=3, column=0)
 
@@ -374,7 +374,7 @@ def show_boardgame():
                                           command=lambda: click(bc.Board.button_list[4], 5)))
     bc.Board.button_list[4].grid(row=3, column=1)
     bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="light gray",
+                                          font='CourierNew 30 bold', bg="grey80",
                                           command=lambda: click(bc.Board.button_list[5], 6)))
     bc.Board.button_list[5].grid(row=3, column=2)
     bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
@@ -383,7 +383,7 @@ def show_boardgame():
     bc.Board.button_list[6].grid(row=4, column=0)
 
     bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="light gray",
+                                          font='CourierNew 30 bold', bg="grey80",
                                           command=lambda: click(bc.Board.button_list[7], 8)))
     bc.Board.button_list[7].grid(row=4, column=1)
     bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
