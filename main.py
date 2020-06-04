@@ -11,6 +11,8 @@ NUMBER_OF_BUTTONS_TO_WIN = 3
 EASY = 1
 MEDIUM = 2
 HARD = 3
+CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)]
+POSSIBILITIES_OF_WINNING = 8
 
 GameBoard = bc.Board()
 GameBoardCopy = bc.Board()
@@ -275,37 +277,15 @@ def win_signal(shape):
         Reset ustawień.
     """
     win_list = (0, 0, 0)
-    if GameBoard.board[0] == shape and GameBoard.board[1] == shape \
-            and GameBoard.board[2] == shape:
-        win_list = (0, 1, 2)
+    for i in range(POSSIBILITIES_OF_WINNING):
+        for j in range(NUMBER_OF_BUTTONS_TO_WIN):
+            if GameBoard.board[CHECKED_FIELDS[i][j]] == shape:
+                pass
+            else:
+                break
+            if j == 2:
+                win_list = CHECKED_FIELDS[i]
 
-    elif GameBoard.board[3] == shape and GameBoard.board[4] == shape \
-            and GameBoard.board[5] == shape:
-        win_list = (3, 4, 5)
-
-    elif GameBoard.board[6] == shape and GameBoard.board[7] == shape \
-            and GameBoard.board[8] == shape:
-        win_list = (6, 7, 8)
-
-    elif GameBoard.board[0] == shape and GameBoard.board[3] == shape \
-            and GameBoard.board[6] == shape:
-        win_list = (0, 3, 6)
-
-    elif GameBoard.board[1] == shape and GameBoard.board[4] == shape \
-            and GameBoard.board[7] == shape:
-        win_list = (1, 4, 7)
-
-    elif GameBoard.board[2] == shape and GameBoard.board[5] == shape \
-            and GameBoard.board[8] == shape:
-        win_list = (2, 5, 8)
-
-    elif GameBoard.board[0] == shape and GameBoard.board[4] == shape \
-            and GameBoard.board[8] == shape:
-        win_list = (0, 4, 8)
-
-    elif GameBoard.board[2] == shape and GameBoard.board[4] == shape \
-            and GameBoard.board[6] == shape:
-        win_list = (2, 4, 6)
     for i in range(NUMBER_OF_BUTTONS_TO_WIN):
         bc.Board.button_list[win_list[i]].configure(fg='orange red')
 
