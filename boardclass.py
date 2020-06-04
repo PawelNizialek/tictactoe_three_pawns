@@ -16,7 +16,7 @@ class Board:
         self.computer_shape = 'O'
         self.player_shape = 'X'
         self.update = 0
-        self.place_delete = 0
+        self.field_deleted = 0
         self.game_run = 0
         self.pawns_limit = 0
         self.level = 0

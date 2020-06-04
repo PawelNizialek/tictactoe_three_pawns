@@ -35,7 +35,7 @@ def click(buttons, number):
         player(number)
         if GameBoard.update:
             GameBoard.update = 0
-            GameBoard.place_delete = 0
+            GameBoard.field_deleted = 0
             buttons["text"] = GameBoard.player_shape
             if win() == -1:
                 win_signal(GameBoard.player_shape)
@@ -86,14 +86,14 @@ def player(number):
         else:
             return 0
     else:
-        if GameBoard.place_delete == 0:
+        if GameBoard.field_deleted == 0:
             move = int(number)
             move = move - 1
             if move in range(0, NUMBER_OF_BUTTONS):
-                if GameBoard.board[move] == GameBoard.player_shape and GameBoard.place_delete == 0:
+                if GameBoard.board[move] == GameBoard.player_shape and GameBoard.field_deleted == 0:
                     GameBoard.board[move] = ' '
                     button_number_changer(move, ' ')
-                    GameBoard.place_delete = 1
+                    GameBoard.field_deleted = 1
             return 0
 
         move = number
@@ -298,7 +298,7 @@ def reset():
     """
     GameBoard.game_run = 1
     GameBoard.pawns_limit = 0
-    GameBoard.place_delete = 0
+    GameBoard.field_deleted = 0
 
     for i in range(NUMBER_OF_BUTTONS):
         button_number_changer(i, " ")
