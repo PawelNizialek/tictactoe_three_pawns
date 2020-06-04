@@ -16,15 +16,6 @@ POSSIBILITIES_OF_WINNING = 8
 
 GameBoard = bc.Board()
 GameBoardCopy = bc.Board()
-root = tk.Tk()
-root.resizable(False, False)
-root.title("3pawns tictactoe")
-Main = tk.Frame(root, width=400, height=300)
-Main.grid(row=1, column=0)
-Top = tk.Frame(root, width=100, height=1)
-Top.grid(row=0, column=0)
-Board = tk.Frame(Main, width=4000, heigh=3000)
-Board.pack(side=tk.LEFT)
 
 
 def click(buttons, number):
@@ -36,7 +27,7 @@ def click(buttons, number):
         if GameBoard.update:
             GameBoard.update = 0
             GameBoard.field_deleted = 0
-            buttons["text"] = GameBoard.player_shape
+            button_number_changer(number - 1, GameBoard.player_shape, "royal blue")
             if win() == -1:
                 win_signal(GameBoard.player_shape)
             elif win() == 1:
@@ -92,7 +83,7 @@ def player(number):
             if move in range(0, NUMBER_OF_BUTTONS):
                 if GameBoard.board[move] == GameBoard.player_shape and GameBoard.field_deleted == 0:
                     GameBoard.board[move] = ' '
-                    button_number_changer(move, ' ')
+                    button_number_changer(move, ' ', 'midnight blue')
                     GameBoard.field_deleted = 1
             return 0
 
@@ -107,10 +98,11 @@ def player(number):
         return 0
 
 
-def button_number_changer(number_to_change, shape):
+def button_number_changer(number_to_change, shape, color):
     """
         Zmiana wyswietlanego tekstu na przycisku.
     """
+    bc.Board.button_list[number_to_change].configure(fg=color)
     bc.Board.button_list[number_to_change]['text'] = shape
 
 
@@ -248,9 +240,9 @@ def computer():
                     break
 
         GameBoard.board[best_place_to_remove] = ' '
-        button_number_changer(best_place_to_remove, ' ')
+        button_number_changer(best_place_to_remove, ' ', 'indian red')
         GameBoard.board[move] = GameBoard.computer_shape
-        button_number_changer(move, GameBoard.computer_shape)
+        button_number_changer(move, GameBoard.computer_shape, 'indian red')
 
     else:
         for i in range(NUMBER_OF_BUTTONS):
@@ -264,7 +256,7 @@ def computer():
                     best_score = points
                     move = i
         GameBoard.board[move] = GameBoard.computer_shape
-        button_number_changer(move, GameBoard.computer_shape)
+        button_number_changer(move, GameBoard.computer_shape, 'indian red')
 
     for _ in bc.Board.shape_tab:
         del bc.Board.shape_tab[0]
@@ -287,7 +279,7 @@ def win_signal(shape):
                 win_list = CHECKED_FIELDS[i]
 
     for i in range(NUMBER_OF_BUTTONS_TO_WIN):
-        bc.Board.button_list[win_list[i]].configure(fg='orange red')
+        bc.Board.button_list[win_list[i]].configure(fg='dark green')
 
     GameBoard.game_run = 0
 
@@ -301,7 +293,7 @@ def reset():
     GameBoard.field_deleted = 0
 
     for i in range(NUMBER_OF_BUTTONS):
-        button_number_changer(i, " ")
+        button_number_changer(i, " ", 'midnight blue')
         bc.Board.button_list[i].configure(fg='midnight blue')
         GameBoard.board[i] = " "
 
@@ -331,6 +323,15 @@ def show_boardgame():
     """
             Wyświetlanie okienka z grą.
     """
+    root = tk.Tk()
+    root.resizable(False, False)
+    root.title("3pawns tictactoe")
+    Main = tk.Frame(root, width=400, height=300)
+    Main.grid(row=1, column=0)
+    Top = tk.Frame(root, width=100, height=1)
+    Top.grid(row=0, column=0)
+    Board = tk.Frame(Main, width=4000, heigh=3000)
+    Board.pack(side=tk.LEFT)
     row_number = 2
     column_number = 0
     for i in range(9):
