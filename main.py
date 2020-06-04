@@ -351,45 +351,21 @@ def show_boardgame():
     """
             Wyświetlanie okienka z grą.
     """
-    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="light gray",
-                                          command=lambda: click(bc.Board.button_list[0], 1)))
-    bc.Board.button_list[0].grid(row=2, column=0)
+    row_number = 2
+    column_number = 0
+    for i in range(9):
+        bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+                                              font='CourierNew 30 bold', bg="light grey",
+                                              command=lambda i=i: click(bc.Board.button_list[i], i + 1)))
+        bc.Board.button_list[i].grid(row=row_number, column=column_number)
+        column_number += 1
 
-    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="grey80",
-                                          command=lambda: click(bc.Board.button_list[1], 2)))
-    bc.Board.button_list[1].grid(row=2, column=1)
-    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="light gray",
-                                          command=lambda: click(bc.Board.button_list[2], 3)))
-    bc.Board.button_list[2].grid(row=2, column=2)
-    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="grey80",
-                                          command=lambda: click(bc.Board.button_list[3], 4)))
-    bc.Board.button_list[3].grid(row=3, column=0)
-
-    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="light gray",
-                                          command=lambda: click(bc.Board.button_list[4], 5)))
-    bc.Board.button_list[4].grid(row=3, column=1)
-    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="grey80",
-                                          command=lambda: click(bc.Board.button_list[5], 6)))
-    bc.Board.button_list[5].grid(row=3, column=2)
-    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="light gray",
-                                          command=lambda: click(bc.Board.button_list[6], 7)))
-    bc.Board.button_list[6].grid(row=4, column=0)
-
-    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="grey80",
-                                          command=lambda: click(bc.Board.button_list[7], 8)))
-    bc.Board.button_list[7].grid(row=4, column=1)
-    bc.Board.button_list.append(tk.Button(Board, text=" ", height=1, width=3,
-                                          font='CourierNew 30 bold', bg="light gray",
-                                          command=lambda: click(bc.Board.button_list[8], 9)))
-    bc.Board.button_list[8].grid(row=4, column=2)
+        if i == 2:
+            column_number = 0
+            row_number = 3
+        elif i == 5:
+            column_number = 0
+            row_number = 4
 
     level_number = tk.IntVar()
     shape_number = tk.IntVar()
@@ -400,7 +376,6 @@ def show_boardgame():
     file_menu = tk.Menu(menubar, tearoff=0)
     file_menu.add_command(label="Exit", command=root.quit())
     menubar.add_cascade(label="File", menu=file_menu)
-
     game_menu = tk.Menu(menubar, tearoff=0)
     game_menu.add_command(label="StartGame", command=lambda: set_game(shape_number, level_number))
     game_menu2 = tk.Menu(game_menu, tearoff=0)
@@ -413,8 +388,8 @@ def show_boardgame():
     game_menu.add_cascade(label="Level", menu=game_menu2)
     game_menu.add_cascade(label="Shape", menu=game_menu3)
     menubar.add_cascade(label="Game", menu=game_menu)
-
     root.config(menu=menubar)
+    root.mainloop()
 
 
 def main():
@@ -423,5 +398,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-root.mainloop()
