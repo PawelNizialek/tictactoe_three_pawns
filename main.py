@@ -76,8 +76,6 @@ def player(number, button_list):
                 return 0
             GameBoard.board[move] = GameBoard.player_shape
             GameBoard.move = 1
-        else:
-            return 0
     else:
         if GameBoard.field_delete == 0:
             move = int(number)
@@ -97,7 +95,7 @@ def player(number, button_list):
                 return 0
             GameBoard.board[move] = GameBoard.player_shape
             GameBoard.move = 1
-        return 0
+    return 0
 
 
 def button_number_changer(number_to_change, shape, color, button_list):
@@ -124,7 +122,6 @@ def minmax(depth=0, max_min=1):
                 GameBoardCopy.board[i] = " "
                 if best_score < score:
                     best_score = score
-        return best_score
     else:
         best_score = BEST_MOVE_MAX_SCORE
         for i in range(NUMBER_OF_BUTTONS):
@@ -134,12 +131,12 @@ def minmax(depth=0, max_min=1):
                 GameBoardCopy.board[i] = ' '
                 if best_score > score:
                     best_score = score
-        return best_score
+    return best_score
 
 
-def minmax_for_three_pawns(min_max_time, shape_tab, depth=0, max=1, place_number=0):
+def minmax_for_three_pawns(min_max_time, shape_tab, depth, max, place_number=0):
     """
-        Zwraca indeks najlepszego posunięcia komputera, gdy na planszy są po trzy pionki każdej ze stron.
+        Zwraca punkty najlepszego ruchu komputera, gdy na planszy są po trzy pionki każdej ze stron.
     """
     time_start_min_max = min_max_time
     pawn_to_remove = place_number
@@ -171,18 +168,15 @@ def minmax_for_three_pawns(min_max_time, shape_tab, depth=0, max=1, place_number
                     GameBoardCopy.board[index] = " "
                     GameBoardCopy.board[i] = GameBoard.computer_shape
 
-                    score = minmax_for_three_pawns(time_start_min_max, shape_tab, depth + 1, 0, pawn_to_remove)
+                    score = minmax_for_three_pawns(time_start_min_max,
+                                                   shape_tab, depth + 1, 0, pawn_to_remove)
 
                     GameBoardCopy.board[index] = GameBoard.computer_shape
                     GameBoardCopy.board[i] = " "
 
                     if best_score < score:
                         best_score = score
-
-        return best_score
-
     else:
-
         best_score = BEST_MOVE_MAX_SCORE
         for i in range(NUMBER_OF_BUTTONS):
             if GameBoardCopy.board[i] == ' ':
@@ -191,7 +185,8 @@ def minmax_for_three_pawns(min_max_time, shape_tab, depth=0, max=1, place_number
                     GameBoardCopy.board[index] = " "
                     GameBoardCopy.board[i] = GameBoard.player_shape
 
-                    score = minmax_for_three_pawns(time_start_min_max, shape_tab, depth + 1, 1, pawn_to_remove)
+                    score = minmax_for_three_pawns(time_start_min_max,
+                                                   shape_tab, depth + 1, 1, pawn_to_remove)
 
                     GameBoardCopy.board[index] = GameBoard.player_shape
                     GameBoardCopy.board[i] = " "
@@ -199,7 +194,7 @@ def minmax_for_three_pawns(min_max_time, shape_tab, depth=0, max=1, place_number
                     if best_score > score:
                         best_score = score
 
-        return best_score
+    return best_score
 
 
 def computer(button_list, shape_tab):
@@ -223,12 +218,14 @@ def computer(button_list, shape_tab):
         for i in range(NUMBER_OF_BUTTONS):
             if GameBoardCopy.board[i] == " ":
                 for computer_shape_number in range(NUMBER_OF_BUTTONS_TO_WIN):
-                    remove = shape_tab_edit(computer_shape_number, GameBoard.computer_shape, shape_tab)
+                    remove = shape_tab_edit(computer_shape_number,
+                                            GameBoard.computer_shape, shape_tab)
                     GameBoardCopy.board[remove] = ' '
                     GameBoardCopy.board[i] = GameBoard.computer_shape
 
                     min_max_time = time.time()
-                    points = minmax_for_three_pawns(min_max_time, shape_tab, 0, 0, computer_shape_number)
+                    points = minmax_for_three_pawns(min_max_time,
+                                                    shape_tab, 0, 0, computer_shape_number)
 
                     GameBoardCopy.board[remove] = GameBoard.computer_shape
                     GameBoardCopy.board[i] = ' '
@@ -328,39 +325,39 @@ def show_boardgame(button_list, shape_tab):
     root = tk.Tk()
     root.resizable(False, False)
     root.title("3pawns tictactoe")
-    Main = tk.Frame(root, width=400, height=300)
-    Main.grid(row=1, column=0)
-    Top = tk.Frame(root, width=100, height=1)
-    Top.grid(row=0, column=0)
-    Board = tk.Frame(Main, width=4000, heigh=3000)
-    Board.pack(side=tk.LEFT)
-    row_number = 2
-    column_number = 0
+    main = tk.Frame(root, width=400, height=300)
+    main.grid(row=1, column=0)
+    top = tk.Frame(root, width=100, height=1)
+    top.grid(row=0, column=0)
+    board = tk.Frame(main, width=4000, heigh=3000)
+    board.pack(side=tk.LEFT)
+    row_column_number = [2, 0]
     for i in range(9):
-        button_list.append(tk.Button(Board, text=" ", height=1, width=3,
+        button_list.append(tk.Button(board, text=" ", height=1, width=3,
                                      font='CourierNew 30 bold', bg="light grey",
                                      command=lambda i=i: click(i + 1, button_list, shape_tab)))
-        button_list[i].grid(row=row_number, column=column_number)
-        column_number += 1
+        button_list[i].grid(row=row_column_number[0], column=row_column_number[1])
+        row_column_number[1] += 1
 
         if i == 2:
-            column_number = 0
-            row_number = 3
+            row_column_number[1] = 0
+            row_column_number[0] = 3
         elif i == 5:
-            column_number = 0
-            row_number = 4
+            row_column_number[1] = 0
+            row_column_number[0] = 4
 
     level_number = tk.IntVar()
     shape_number = tk.IntVar()
     level_number.set(HARD)
     shape_number.set(1)
 
-    menubar = tk.Menu(Top)
+    menubar = tk.Menu(top)
     file_menu = tk.Menu(menubar, tearoff=0)
     file_menu.add_command(label="Exit", command=root.destroy)
     menubar.add_cascade(label="File", menu=file_menu)
     game_menu = tk.Menu(menubar, tearoff=0)
-    game_menu.add_command(label="StartGame", command=lambda: set_game(shape_number, level_number, button_list))
+    game_menu.add_command(label="StartGame",
+                          command=lambda: set_game(shape_number, level_number, button_list))
     game_menu2 = tk.Menu(game_menu, tearoff=0)
     game_menu3 = tk.Menu(game_menu, tearoff=0)
     game_menu2.add_radiobutton(label="Easy", variable=level_number, value=EASY)
@@ -376,6 +373,9 @@ def show_boardgame(button_list, shape_tab):
 
 
 def main():
+    """
+    Wywołanie funkcji wyświetlającej planszę.
+    """
     button_list = []
     shape_tab = []
     show_boardgame(button_list, shape_tab)
