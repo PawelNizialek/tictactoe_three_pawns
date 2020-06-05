@@ -8,19 +8,15 @@ class Board:
         Plansza do gry.
         Sprawdzenie wygranej.
     """
-    shape_tab = []
-    button_list = []
-
     def __init__(self):
         self.board = [' ', " ", " ", " ", ' ', " ", " ", " ", ' ']
         self.computer_shape = 'O'
         self.player_shape = 'X'
-        self.update = 0
-        self.field_deleted = 0
+        self.move = 0
+        self.field_delete = 0
         self.game_run = 0
-        self.pawns_limit = 0
+        self.pawns_limit_on_board = 0
         self.level = 0
-
 
     def modify(self, place_number, shape):
         """
