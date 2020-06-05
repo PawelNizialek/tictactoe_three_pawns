@@ -16,8 +16,8 @@ CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
                   (0, 4, 8), (2, 4, 6), ]
 POSSIBILITIES_OF_WINNING = 8
 
-GameBoard = bc.Board()
-GameBoardCopy = bc.Board()
+GameBoard = bc.Board([" ", " ", " ", " ", " ", " ", " ", " ", " "])
+GameBoardCopy = bc.Board([" ", " ", " ", " ", " ", " ", " ", " ", " "])
 
 
 def click(number, button_list, shape_tab):
@@ -29,7 +29,7 @@ def click(number, button_list, shape_tab):
         if GameBoard.move:
             GameBoard.move = 0
             GameBoard.field_delete = 0
-            button_number_changer(number - 1, GameBoard.player_shape, "royal blue", button_list)
+            button_number_changer(number - 1, GameBoard.player_shape, "coral", button_list)
             if win() == -1:
                 win_signal(GameBoard.player_shape, button_list)
             elif win() == 1:
@@ -77,9 +77,10 @@ def player(number, button_list):
             GameBoard.board[move] = GameBoard.player_shape
             GameBoard.move = 1
     else:
+        move = int(number)
+        move = move - 1
         if GameBoard.field_delete == 0:
-            move = int(number)
-            move = move - 1
+
             if move in range(0, NUMBER_OF_BUTTONS):
                 if GameBoard.board[move] == GameBoard.player_shape and GameBoard.field_delete == 0:
                     GameBoard.board[move] = ' '
@@ -87,8 +88,6 @@ def player(number, button_list):
                     GameBoard.field_delete = 1
             return 0
 
-        move = number
-        move = move - 1
         if move in range(0, NUMBER_OF_BUTTONS):
             if GameBoard.board[move] == GameBoard.computer_shape \
                     or GameBoard.board[move] == GameBoard.player_shape:
@@ -239,9 +238,9 @@ def computer(button_list, shape_tab):
                     break
 
         GameBoard.board[best_place_to_remove] = ' '
-        button_number_changer(best_place_to_remove, ' ', 'indian red', button_list)
+        button_number_changer(best_place_to_remove, ' ', 'dark violet', button_list)
         GameBoard.board[move] = GameBoard.computer_shape
-        button_number_changer(move, GameBoard.computer_shape, 'indian red', button_list)
+        button_number_changer(move, GameBoard.computer_shape, 'dark violet', button_list)
 
     else:
         for i in range(NUMBER_OF_BUTTONS):
@@ -255,7 +254,7 @@ def computer(button_list, shape_tab):
                     best_score = points
                     move = i
         GameBoard.board[move] = GameBoard.computer_shape
-        button_number_changer(move, GameBoard.computer_shape, 'indian red', button_list)
+        button_number_changer(move, GameBoard.computer_shape, 'dark violet', button_list)
 
     for _ in shape_tab:
         del shape_tab[0]
@@ -278,7 +277,7 @@ def win_signal(shape, button_list):
                 win_list = CHECKED_FIELDS[i]
 
     for i in range(NUMBER_OF_BUTTONS_TO_WIN):
-        button_list[win_list[i]].configure(fg='dark green')
+        button_list[win_list[i]].configure(fg='goldenrod')
 
     GameBoard.game_run = 0
 
@@ -292,8 +291,7 @@ def reset(button_list):
     GameBoard.field_delete = 0
 
     for i in range(NUMBER_OF_BUTTONS):
-        button_number_changer(i, " ", 'midnight blue', button_list)
-        button_list[i].configure(fg='midnight blue')
+        button_number_changer(i, " ", 'black', button_list)
         GameBoard.board[i] = " "
 
 

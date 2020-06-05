@@ -8,8 +8,8 @@ class Board:
         Plansza do gry.
         Sprawdzenie wygranej.
     """
-    def __init__(self):
-        self.board = [' ', " ", " ", " ", ' ', " ", " ", " ", ' ']
+    def __init__(self, initial_set):
+        self.board = initial_set
         self.computer_shape = 'O'
         self.player_shape = 'X'
         self.move = 0
@@ -39,25 +39,23 @@ class Board:
                 if self.board[i] == shape_player:
                     point = -1
                 return point
-        point = 0
-        if (self.board[4] != " " and self.board[2] == self.board[4]
-                and self.board[4] == self.board[6]
-                or (self.board[0] == self.board[4]
-                    and self.board[4] != " " and self.board[4] == self.board[8])):
+        point = 1
+        if self.board[4] != " " and (self.board[2] == self.board[4]
+                                     and self.board[4] == self.board[6]
+                                     or (self.board[0] == self.board[4]
+                                         and self.board[4] == self.board[8])):
             if self.board[4] == shape_player:
                 point = -1
-            if self.board[4] == shape_computer:
-                point = 1
             return point
         for i in range(0, 7, 3):
             if (self.board[i + 2] != " " and self.board[i] == self.board[i + 1]
                     and self.board[i] == self.board[i + 2]):
-                if self.board[i] == shape_player:
-                    return -1
-                return 1
+                if self.board[i] == shape_computer:
+                    return 1
+                return -1
         for i in range(0, 9):
             if self.board[i] != " ":
                 count = count + 1
         if count == 9:
-            return point
+            return 0
         return None
