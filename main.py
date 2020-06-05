@@ -29,7 +29,7 @@ def click(number, button_list, shape_tab):
         if GameBoard.move:
             GameBoard.move = 0
             GameBoard.field_delete = 0
-            button_number_changer(number - 1, GameBoard.player_shape, "coral", button_list)
+            button_number_changer(number - 1, GameBoard.player_shape, "midnight blue", button_list)
             if win() == -1:
                 win_signal(GameBoard.player_shape, button_list)
             elif win() == 1:
@@ -206,6 +206,7 @@ def computer(button_list, shape_tab):
     best_score = BEST_MOVE_MIN_SCORE
     points = -1
     move = 0
+    color = "forest green"
     for i in range(NUMBER_OF_BUTTONS):
         if GameBoardCopy.board[i] == GameBoard.computer_shape:
             shape_tab.append(i)
@@ -238,9 +239,9 @@ def computer(button_list, shape_tab):
                     break
 
         GameBoard.board[best_place_to_remove] = ' '
-        button_number_changer(best_place_to_remove, ' ', 'dark violet', button_list)
+        button_number_changer(best_place_to_remove, ' ', color, button_list)
         GameBoard.board[move] = GameBoard.computer_shape
-        button_number_changer(move, GameBoard.computer_shape, 'dark violet', button_list)
+        button_number_changer(move, GameBoard.computer_shape, color, button_list)
 
     else:
         for i in range(NUMBER_OF_BUTTONS):
@@ -254,7 +255,7 @@ def computer(button_list, shape_tab):
                     best_score = points
                     move = i
         GameBoard.board[move] = GameBoard.computer_shape
-        button_number_changer(move, GameBoard.computer_shape, 'dark violet', button_list)
+        button_number_changer(move, GameBoard.computer_shape, color, button_list)
 
     for _ in shape_tab:
         del shape_tab[0]
@@ -277,7 +278,7 @@ def win_signal(shape, button_list):
                 win_list = CHECKED_FIELDS[i]
 
     for i in range(NUMBER_OF_BUTTONS_TO_WIN):
-        button_list[win_list[i]].configure(fg='goldenrod')
+        button_list[win_list[i]].configure(fg='orange red')
 
     GameBoard.game_run = 0
 
