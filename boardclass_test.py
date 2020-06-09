@@ -6,6 +6,9 @@ import unittest
 
 import boardclass
 
+NUMBER_OF_EXAMPLE_TIE_POSSIBILITIES = 54
+NUMBER_OF_WIN_FIELDS = 8
+
 CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
                   (0, 3, 6), (1, 4, 7), (2, 5, 8),
                   (0, 4, 8), (2, 4, 6), ]
@@ -27,7 +30,7 @@ class BoardTest(unittest.TestCase):
         self.test_board = boardclass.Board()
 
     def test_win(self):
-        for j in range(8):
+        for j in range(NUMBER_OF_WIN_FIELDS):
             tab = [' ']*9
             for i in range(3):
                 tab[CHECKED_FIELDS[j][i]] = "X"
@@ -35,7 +38,7 @@ class BoardTest(unittest.TestCase):
             self.assertTrue(self.test_board.win_checker("X", "O"))
 
     def test_defeat(self):
-        for j in range(8):
+        for j in range(NUMBER_OF_WIN_FIELDS):
             tab = [' ']*9
             for i in range(3):
                 tab[CHECKED_FIELDS[j][i]] = "O"
@@ -43,7 +46,7 @@ class BoardTest(unittest.TestCase):
             self.assertTrue(self.test_board.win_checker("X", "O"))
 
     def test_no_win(self):
-        for j in range(54):
+        for j in range(NUMBER_OF_EXAMPLE_TIE_POSSIBILITIES):
             tab = [' ']*9
             for i in range(3):
                 tab[TIE_FIELDS[j][i]] = "X"
