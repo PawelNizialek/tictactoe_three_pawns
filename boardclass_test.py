@@ -12,21 +12,33 @@ CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
 
 
 class BoardTest(unittest.TestCase):
-    """
-    Testy klasy Board.
-    """
 
     def setUp(self):
-        self.board = boardclass.Board([" ", " ", " ", " ", " ", " ", " ", " ", " "])
+        self.test_board = boardclass.Board()
 
     def test_win(self):
-        """Test metody win_checker, która sprawdza czy ustawienie pionków jest wygrywajace."""
         for j in range(8):
-            tab = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+            tab = [' ']*9
             for i in range(3):
                 tab[CHECKED_FIELDS[j][i]] = "X"
-            self.board = boardclass.Board(tab)
-            self.assertTrue(self.board.win_checker("X", "O"))
+            self.test_board.board = tab
+            self.assertTrue(self.test_board.win_checker("X", "O"))
+
+    def test_defeat(self):
+        for j in range(8):
+            tab = [' ']*9
+            for i in range(3):
+                tab[CHECKED_FIELDS[j][i]] = "O"
+            self.test_board.board = tab
+            self.assertTrue(self.test_board.win_checker("X", "O"))
+
+    def test_no_win(self):
+        for j in range(8):
+            tab = [' ']*9
+            for i in range(3):
+                tab[CHECKED_FIELDS[j][i]] = " "
+            self.test_board.board = tab
+            self.assertIsNone(self.test_board.win_checker("X", "O"))
 
 
 if __name__ == '__main__':

@@ -16,8 +16,8 @@ CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
                   (0, 4, 8), (2, 4, 6), ]
 POSSIBILITIES_OF_WINNING = 8
 
-GameBoard = bc.Board([" ", " ", " ", " ", " ", " ", " ", " ", " "])
-GameBoardCopy = bc.Board([" ", " ", " ", " ", " ", " ", " ", " ", " "])
+GameBoard = bc.Board()
+GameBoardCopy = bc.Board()
 
 
 def click(number, button_list, shape_tab):
@@ -71,8 +71,8 @@ def player(number, button_list):
         move = int(number)
         move = move - 1
         if move in range(0, NUMBER_OF_BUTTONS):
-            if GameBoard.board[move] == GameBoard.computer_shape \
-                    or GameBoard.board[move] == GameBoard.player_shape:
+            if (GameBoard.board[move] == GameBoard.computer_shape
+                    or GameBoard.board[move] == GameBoard.player_shape):
                 return 0
             GameBoard.board[move] = GameBoard.player_shape
             GameBoard.move = 1
@@ -89,8 +89,8 @@ def player(number, button_list):
             return 0
 
         if move in range(0, NUMBER_OF_BUTTONS):
-            if GameBoard.board[move] == GameBoard.computer_shape \
-                    or GameBoard.board[move] == GameBoard.player_shape:
+            if (GameBoard.board[move] == GameBoard.computer_shape
+                    or GameBoard.board[move] == GameBoard.player_shape):
                 return 0
             GameBoard.board[move] = GameBoard.player_shape
             GameBoard.move = 1

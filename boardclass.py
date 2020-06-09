@@ -8,8 +8,8 @@ class Board:
         Plansza do gry.
         Sprawdzenie wygranej.
     """
-    def __init__(self, initial_set):
-        self.board = initial_set
+    def __init__(self):
+        self.board = [' ']*9
         self.computer_shape = 'O'
         self.player_shape = 'X'
         self.move = 0
