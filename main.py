@@ -273,7 +273,7 @@ def win_signal(shape, button_list):
         for j in range(NUMBER_OF_BUTTONS_TO_WIN):
             if GameBoard.board[CHECKED_FIELDS[i][j]] == shape:
                 pass
-            else:
+            if GameBoard.board[CHECKED_FIELDS[i][j]] != shape:
                 break
             if j == 2:
                 win_list = CHECKED_FIELDS[i]

@@ -1,6 +1,11 @@
 """
     Przechowuje planszę do gry.
 """
+NUMBER_OF_BUTTONS = 9
+NUMBER_OF_BUTTONS_TO_WIN = 3
+COMPUTER_LOST = -1
+COMPUTER_WON = 1
+TIE = 0
 
 
 class Board:
@@ -8,8 +13,9 @@ class Board:
         Plansza do gry.
         Sprawdzenie wygranej.
     """
+
     def __init__(self):
-        self.board = [' ']*9
+        self.board = [' '] * NUMBER_OF_BUTTONS
         self.computer_shape = 'O'
         self.player_shape = 'X'
         self.move = 0
@@ -32,30 +38,28 @@ class Board:
            Zwraca 0 jeśli remis.
         """
         count = 0
-        point = 1
-        for i in range(0, 3):
-            if (self.board[i + 6] != " " and self.board[i] == self.board[i + 3]
-                    and self.board[i] == self.board[i + 6]):
+        point = COMPUTER_WON
+        for i in range(0, NUMBER_OF_BUTTONS_TO_WIN):
+            if (self.board[i + 6] != " " and self.board[i] ==
+                    self.board[i + 3] == self.board[i + 6]):
                 if self.board[i] == shape_player:
-                    point = -1
+                    point = COMPUTER_LOST
                 return point
-        point = 1
+        point = COMPUTER_WON
         if self.board[4] != " " and (self.board[2] == self.board[4]
-                                     and self.board[4] == self.board[6]
-                                     or (self.board[0] == self.board[4]
-                                         and self.board[4] == self.board[8])):
+                                     == self.board[6] or (self.board[0]
+                                                          == self.board[4] == self.board[8])):
             if self.board[4] == shape_player:
-                point = -1
+                point = COMPUTER_LOST
             return point
         for i in range(0, 7, 3):
             if (self.board[i + 2] != " " and self.board[i] == self.board[i + 1]
-                    and self.board[i] == self.board[i + 2]):
+                    == self.board[i + 2]):
                 if self.board[i] == shape_computer:
-                    return 1
-                return -1
-        for i in range(0, 9):
+                    return COMPUTER_WON
+                return COMPUTER_LOST
+        for i in range(0, NUMBER_OF_BUTTONS):
             if self.board[i] != " ":
                 count = count + 1
-        if count == 9:
-            return 0
-        return None
+        if count == NUMBER_OF_BUTTONS:
+            return TIE
