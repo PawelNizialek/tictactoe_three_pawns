@@ -14,15 +14,18 @@ class Board:
         Sprawdzenie wygranej.
     """
 
-    def __init__(self):
+    def __init__(self, shape, level):
         self.board = [' '] * NUMBER_OF_BUTTONS
-        self.computer_shape = 'O'
-        self.player_shape = 'X'
+        self.player_shape = shape
+        if shape == 'X':
+            self.computer_shape = 'O'
+        else:
+            self.computer_shape = 'X'
         self.move = 0
         self.field_delete = 0
         self.game_run = 0
         self.pawns_limit_on_board = 0
-        self.level = 0
+        self.level = level
 
     def modify(self, place_number, shape):
         """

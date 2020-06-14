@@ -17,8 +17,8 @@ CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
 
 POSSIBILITIES_OF_WINNING = 8
 
-GameBoard = bc.Board()
-GameBoardCopy = bc.Board()
+GameBoard = bc.Board("X", 0)
+GameBoardCopy = bc.Board("X", 0)
 
 
 def click(number, button_list, shape_tab):
