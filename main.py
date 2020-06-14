@@ -303,19 +303,12 @@ def set_game(shape_number, level_number, button_list):
         Ustawienie poziomu trudności.
         Ustawienie kształtu.
     """
-    reset(button_list)
-    if level_number.get() == EASY:
-        GameBoard.level = EASY
-    elif level_number.get() == MEDIUM:
-        GameBoard.level = MEDIUM
-    elif level_number.get() == HARD:
-        GameBoard.level = HARD
+    global GameBoard
     if shape_number.get() == 1:
-        GameBoard.player_shape = "X"
-        GameBoard.computer_shape = "O"
-    if shape_number.get() == 2:
-        GameBoard.player_shape = "O"
-        GameBoard.computer_shape = "X"
+        GameBoard = bc.Board("O", level_number.get())
+    else:
+        GameBoard = bc.Board("X", level_number.get())
+    reset(button_list)
 
 
 def show_boardgame(button_list, shape_tab):

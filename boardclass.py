@@ -14,13 +14,14 @@ class Board:
         Sprawdzenie wygranej.
     """
 
-    def __init__(self, shape, level):
+    def __init__(self, computer_shape, level):
         self.board = [' '] * NUMBER_OF_BUTTONS
-        self.player_shape = shape
-        if shape == 'X':
-            self.computer_shape = 'O'
-        else:
+        if computer_shape == 'X':
+            self.player_shape = 'O'
             self.computer_shape = 'X'
+        else:
+            self.player_shape = 'X'
+            self.computer_shape = 'O'
         self.move = 0
         self.field_delete = 0
         self.game_run = 0
