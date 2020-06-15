@@ -6,8 +6,8 @@ NUMBER_OF_BUTTONS_TO_WIN = 3
 COMPUTER_LOST = -1
 COMPUTER_WON = 1
 TIE = 0
-SHAPE_X = 'X'
-SHAPE_O = 'O'
+CROSS = 'X'
+CIRCLE = 'O'
 
 
 class Board:
@@ -18,12 +18,12 @@ class Board:
 
     def __init__(self, computer_shape, level):
         self.board = [' '] * NUMBER_OF_BUTTONS
-        if computer_shape == SHAPE_X:
-            self.player_shape = SHAPE_O
-            self.computer_shape = SHAPE_X
+        if computer_shape == CROSS:
+            self.player_shape = CIRCLE
+            self.computer_shape = CROSS
         else:
-            self.player_shape = SHAPE_X
-            self.computer_shape = SHAPE_O
+            self.player_shape = CROSS
+            self.computer_shape = CIRCLE
         self.move = 0
         self.field_delete = 0
         self.game_run = 0

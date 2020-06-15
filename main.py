@@ -7,13 +7,15 @@ TIME_TO_THINK = 7.2
 TIME_TO_THINK_EASY_MED = 0.1
 BEST_MOVE_MAX_SCORE = 10
 BEST_MOVE_MIN_SCORE = -10
-NUMBER_OF_BUTTONS_TO_WIN = 3
+NUMBER_OF_BUTTONS_TO_WIN = [0, 1, 2]
 EASY = 1
 MEDIUM = 2
 HARD = 3
 CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
                   (0, 3, 6), (1, 4, 7), (2, 5, 8),
                   (0, 4, 8), (2, 4, 6), ]
+
+BUTTON_NUMBER_LIST = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
 POSSIBILITIES_OF_WINNING = 8
 CROSS = 'X'
@@ -49,7 +51,7 @@ def win():
     """
         Sprawdzenie wygranej.
     """
-    for i in range(NUMBER_OF_BUTTONS):
+    for i in BUTTON_NUMBER_LIST:
         GameBoardCopy.board[i] = GameBoard.board[i]
     return GameBoard.win_checker(GameBoard.player_shape, GameBoard.computer_shape)
 
@@ -60,7 +62,7 @@ def shape_tab_edit(button_number, shape, shape_tab):
     """
     for _ in range(len(shape_tab)):
         del shape_tab[0]
-    for k in range(NUMBER_OF_BUTTONS):
+    for k in BUTTON_NUMBER_LIST:
         if GameBoardCopy.board[k] == shape:
             shape_tab.append(k)
     return shape_tab[button_number]
@@ -71,33 +73,29 @@ def player(number, button_list):
         Odpowiada za możliwość poprawnego ruchu gracza.
     """
     if GameBoard.pawns_limit_on_board == 0:
-        move = int(number)
-        move = move - 1
-        if move in range(NUMBER_OF_BUTTONS):
+        move = int(number) - 1
+        if 0 <= move < NUMBER_OF_BUTTONS:
             if (GameBoard.board[move] == GameBoard.computer_shape
                     or GameBoard.board[move] == GameBoard.player_shape):
                 return 0
             GameBoard.board[move] = GameBoard.player_shape
             GameBoard.move = 1
     else:
-        move = int(number)
-        move = move - 1
+        move = int(number) - 1
         if GameBoard.field_delete == 0:
-
-            if move in range(NUMBER_OF_BUTTONS):
+            if move in BUTTON_NUMBER_LIST:
                 if GameBoard.board[move] == GameBoard.player_shape and GameBoard.field_delete == 0:
                     GameBoard.board[move] = ' '
                     button_number_changer(move, ' ', 'midnight blue', button_list)
                     GameBoard.field_delete = 1
             return 0
 
-        if move in range(NUMBER_OF_BUTTONS):
+        if move in BUTTON_NUMBER_LIST:
             if (GameBoard.board[move] == GameBoard.computer_shape
                     or GameBoard.board[move] == GameBoard.player_shape):
                 return 0
             GameBoard.board[move] = GameBoard.player_shape
             GameBoard.move = 1
-    return 0
 
 
 def button_number_changer(number_to_change, shape, color, button_list):
@@ -117,7 +115,7 @@ def minmax(depth=0, max_min=1):
         return result
     if max_min:
         best_score = BEST_MOVE_MIN_SCORE
-        for i in range(NUMBER_OF_BUTTONS):
+        for i in BUTTON_NUMBER_LIST:
             if GameBoardCopy.board[i] == " ":
                 GameBoardCopy.board[i] = GameBoard.computer_shape
                 score = minmax(depth + 1, 0)
@@ -126,7 +124,7 @@ def minmax(depth=0, max_min=1):
                     best_score = score
     else:
         best_score = BEST_MOVE_MAX_SCORE
-        for i in range(NUMBER_OF_BUTTONS):
+        for i in BUTTON_NUMBER_LIST:
             if GameBoardCopy.board[i] == ' ':
                 GameBoardCopy.board[i] = GameBoard.player_shape
                 score = minmax(depth + 1, 1)
@@ -163,9 +161,9 @@ def minmax_for_three_pawns(min_max_time, shape_tab, depth, max, place_number=0):
 
     if max:
         best_score = BEST_MOVE_MIN_SCORE
-        for i in range(NUMBER_OF_BUTTONS):
+        for i in BUTTON_NUMBER_LIST:
             if GameBoardCopy.board[i] == " ":
-                for j in range(NUMBER_OF_BUTTONS_TO_WIN):
+                for j in NUMBER_OF_BUTTONS_TO_WIN:
                     index = shape_tab_edit(j, GameBoard.computer_shape, shape_tab)
                     GameBoardCopy.board[index] = " "
                     GameBoardCopy.board[i] = GameBoard.computer_shape
@@ -180,9 +178,9 @@ def minmax_for_three_pawns(min_max_time, shape_tab, depth, max, place_number=0):
                         best_score = score
     else:
         best_score = BEST_MOVE_MAX_SCORE
-        for i in range(NUMBER_OF_BUTTONS):
+        for i in BUTTON_NUMBER_LIST:
             if GameBoardCopy.board[i] == ' ':
-                for j in range(NUMBER_OF_BUTTONS_TO_WIN):
+                for j in NUMBER_OF_BUTTONS_TO_WIN:
                     index = shape_tab_edit(j, GameBoard.player_shape, shape_tab)
                     GameBoardCopy.board[index] = " "
                     GameBoardCopy.board[i] = GameBoard.player_shape
@@ -203,14 +201,14 @@ def computer(button_list, shape_tab):
     """
         Odpowiada za właściwy ruch komputera.
     """
-    for i in range(NUMBER_OF_BUTTONS):
+    for i in BUTTON_NUMBER_LIST:
         GameBoardCopy.board[i] = GameBoard.board[i]
     best_place_to_remove = 0
     best_score = BEST_MOVE_MIN_SCORE
     points = -1
     move = 0
     color = "forest green"
-    for i in range(NUMBER_OF_BUTTONS):
+    for i in BUTTON_NUMBER_LIST:
         if GameBoardCopy.board[i] == GameBoard.computer_shape:
             shape_tab.append(i)
 
@@ -218,9 +216,9 @@ def computer(button_list, shape_tab):
         GameBoard.pawns_limit_on_board = 1
 
     if len(shape_tab) > 2:
-        for i in range(NUMBER_OF_BUTTONS):
+        for i in BUTTON_NUMBER_LIST:
             if GameBoardCopy.board[i] == " ":
-                for computer_shape_number in range(NUMBER_OF_BUTTONS_TO_WIN):
+                for computer_shape_number in NUMBER_OF_BUTTONS_TO_WIN:
                     remove = shape_tab_edit(computer_shape_number,
                                             GameBoard.computer_shape, shape_tab)
                     GameBoardCopy.board[remove] = ' '
@@ -247,7 +245,7 @@ def computer(button_list, shape_tab):
         button_number_changer(move, GameBoard.computer_shape, color, button_list)
 
     else:
-        for i in range(NUMBER_OF_BUTTONS):
+        for i in BUTTON_NUMBER_LIST:
             if GameBoardCopy.board[i] == " ":
                 GameBoardCopy.board[i] = GameBoard.computer_shape
 
@@ -272,7 +270,7 @@ def win_signal(shape, button_list):
     """
     win_list = (0, 0, 0)
     for i in range(POSSIBILITIES_OF_WINNING):
-        for j in range(NUMBER_OF_BUTTONS_TO_WIN):
+        for j in NUMBER_OF_BUTTONS_TO_WIN:
             if GameBoard.board[CHECKED_FIELDS[i][j]] == shape:
                 pass
             if GameBoard.board[CHECKED_FIELDS[i][j]] != shape:
@@ -280,7 +278,7 @@ def win_signal(shape, button_list):
             if j == 2:
                 win_list = CHECKED_FIELDS[i]
 
-    for i in range(NUMBER_OF_BUTTONS_TO_WIN):
+    for i in NUMBER_OF_BUTTONS_TO_WIN:
         button_list[win_list[i]].configure(fg='orange red')
 
     GameBoard.game_run = 0
@@ -294,7 +292,7 @@ def reset(button_list):
     GameBoard.pawns_limit_on_board = 0
     GameBoard.field_delete = 0
 
-    for i in range(NUMBER_OF_BUTTONS):
+    for i in BUTTON_NUMBER_LIST:
         button_number_changer(i, " ", 'black', button_list)
         GameBoard.board[i] = " "
 
@@ -307,7 +305,7 @@ def set_game(shape_number, level_number, button_list):
     """
     global GameBoard
     if shape_number.get() == 1:
-        GameBoard = bc.Board("O", level_number.get())
+        GameBoard = bc.Board(CIRCLE, level_number.get())
     else:
         GameBoard = bc.Board(CROSS, level_number.get())
     reset(button_list)
@@ -327,7 +325,7 @@ def show_boardgame(button_list, shape_tab):
     board = tk.Frame(main, width=4000, heigh=3000)
     board.pack(side=tk.LEFT)
     row_column_number = [2, 0]
-    for i in range(9):
+    for i in BUTTON_NUMBER_LIST:
         button_list.append(tk.Button(board, text=" ", height=1, width=3,
                                      font='CourierNew 30 bold', bg="light grey",
                                      command=lambda i=i: click(i + 1, button_list, shape_tab)))
