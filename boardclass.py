@@ -54,7 +54,7 @@ class Board:
         point = COMPUTER_WON
         if (self.board[4] != " " and
                 (self.board[2] == self.board[4] == self.board[6] or
-                    (self.board[0] == self.board[4] == self.board[8]))):
+                 (self.board[0] == self.board[4] == self.board[8]))):
             if self.board[4] == shape_player:
                 point = COMPUTER_LOST
             return point
