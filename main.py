@@ -15,6 +15,8 @@ CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
                   (0, 3, 6), (1, 4, 7), (2, 5, 8),
                   (0, 4, 8), (2, 4, 6), ]
 
+COMPUTER_WIN = -1
+PLAYER_WIN = 2
 POSSIBILITIES_OF_WINNING = 8
 CROSS = 'X'
 CIRCLE = 'O'
@@ -34,15 +36,15 @@ def click(number, button_list, shape_tab):
             GameBoard.move = 0
             GameBoard.field_delete = 0
             button_number_changer(number - 1, GameBoard.player_shape, "midnight blue", button_list)
-            if win() == -1:
+            if win() == COMPUTER_WIN:
                 win_signal(GameBoard.player_shape, button_list)
-            elif win() == 1:
+            elif win() == PLAYER_WIN:
                 win_signal(GameBoard.computer_shape, button_list)
             else:
                 computer(button_list, shape_tab)
-        if win() == -1:
+        if win() == COMPUTER_WIN:
             win_signal(GameBoard.player_shape, button_list)
-        elif win() == 2:
+        elif win() == PLAYER_WIN:
             win_signal(GameBoard.computer_shape, button_list)
 
 
