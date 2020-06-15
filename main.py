@@ -16,9 +16,11 @@ CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
                   (0, 4, 8), (2, 4, 6), ]
 
 POSSIBILITIES_OF_WINNING = 8
+CROSS = 'X'
+CIRCLE = 'O'
 
-GameBoard = bc.Board("X", 0)
-GameBoardCopy = bc.Board("X", 0)
+GameBoard = bc.Board(CROSS, 0)
+GameBoardCopy = bc.Board(CROSS, 0)
 
 
 def click(number, button_list, shape_tab):
@@ -71,7 +73,7 @@ def player(number, button_list):
     if GameBoard.pawns_limit_on_board == 0:
         move = int(number)
         move = move - 1
-        if move in range(0, NUMBER_OF_BUTTONS):
+        if move in range(NUMBER_OF_BUTTONS):
             if (GameBoard.board[move] == GameBoard.computer_shape
                     or GameBoard.board[move] == GameBoard.player_shape):
                 return 0
@@ -82,14 +84,14 @@ def player(number, button_list):
         move = move - 1
         if GameBoard.field_delete == 0:
 
-            if move in range(0, NUMBER_OF_BUTTONS):
+            if move in range(NUMBER_OF_BUTTONS):
                 if GameBoard.board[move] == GameBoard.player_shape and GameBoard.field_delete == 0:
                     GameBoard.board[move] = ' '
                     button_number_changer(move, ' ', 'midnight blue', button_list)
                     GameBoard.field_delete = 1
             return 0
 
-        if move in range(0, NUMBER_OF_BUTTONS):
+        if move in range(NUMBER_OF_BUTTONS):
             if (GameBoard.board[move] == GameBoard.computer_shape
                     or GameBoard.board[move] == GameBoard.player_shape):
                 return 0
@@ -307,7 +309,7 @@ def set_game(shape_number, level_number, button_list):
     if shape_number.get() == 1:
         GameBoard = bc.Board("O", level_number.get())
     else:
-        GameBoard = bc.Board("X", level_number.get())
+        GameBoard = bc.Board(CROSS, level_number.get())
     reset(button_list)
 
 
@@ -356,8 +358,8 @@ def show_boardgame(button_list, shape_tab):
     game_menu2.add_radiobutton(label="Easy", variable=level_number, value=EASY)
     game_menu2.add_radiobutton(label="Medium", variable=level_number, value=MEDIUM)
     game_menu2.add_radiobutton(label="Hard", variable=level_number, value=HARD)
-    game_menu3.add_radiobutton(label="X", variable=shape_number, value=1)
-    game_menu3.add_radiobutton(label="O", variable=shape_number, value=2)
+    game_menu3.add_radiobutton(label=CROSS, variable=shape_number, value=1)
+    game_menu3.add_radiobutton(label=CIRCLE, variable=shape_number, value=2)
     game_menu.add_cascade(label="Level", menu=game_menu2)
     game_menu.add_cascade(label="Shape", menu=game_menu3)
     menubar.add_cascade(label="Game", menu=game_menu)

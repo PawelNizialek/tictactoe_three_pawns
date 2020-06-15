@@ -7,6 +7,8 @@ import unittest
 import boardclass
 
 
+CIRCLE = "O"
+CROSS = "X"
 CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
                   (0, 3, 6), (1, 4, 7), (2, 5, 8),
                   (0, 4, 8), (2, 4, 6), ]
@@ -25,31 +27,31 @@ TIE_FIELDS = [(0, 1, 3), (0, 1, 4), (0, 1, 5), (0, 1, 6), (0, 1, 7), (0, 1, 8),
 class BoardTest(unittest.TestCase):
 
     def setUp(self):
-        self.test_board = boardclass.Board("O", 0)
+        self.test_board = boardclass.Board(CIRCLE, 0)
 
     def test_win(self):
-        for j in range(8):
-            tab = [' ']*9
-            for i in range(3):
-                tab[CHECKED_FIELDS[j][i]] = "X"
-            self.test_board.board = tab
-            self.assertTrue(self.test_board.win_checker("X", "O"))
+        for field_list in CHECKED_FIELDS:
+            board = [' '] * 9
+            for field in field_list:
+                board[field] = CROSS
+            self.test_board.board = board
+            self.assertTrue(self.test_board.win_checker(CROSS, CIRCLE))
 
     def test_defeat(self):
-        for j in range(8):
-            tab = [' ']*9
-            for i in range(3):
-                tab[CHECKED_FIELDS[j][i]] = "O"
-            self.test_board.board = tab
-            self.assertTrue(self.test_board.win_checker("X", "O"))
+        for field_list in CHECKED_FIELDS:
+            board = [' '] * 9
+            for field in field_list:
+                board[field] = CIRCLE
+            self.test_board.board = board
+            self.assertTrue(self.test_board.win_checker(CROSS, CIRCLE))
 
     def test_no_win(self):
-        for j in range(54):
-            tab = [' ']*9
-            for i in range(3):
-                tab[TIE_FIELDS[j][i]] = "X"
-            self.test_board.board = tab
-            self.assertIsNone(self.test_board.win_checker("X", "O"))
+        for field_list in TIE_FIELDS:
+            board = [' '] * 9
+            for field in field_list:
+                board[field] = CROSS
+            self.test_board.board = board
+            self.assertIsNone(self.test_board.win_checker(CROSS, CIRCLE))
 
 
 if __name__ == '__main__':

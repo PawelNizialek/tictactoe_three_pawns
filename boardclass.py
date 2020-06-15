@@ -6,6 +6,8 @@ NUMBER_OF_BUTTONS_TO_WIN = 3
 COMPUTER_LOST = -1
 COMPUTER_WON = 1
 TIE = 0
+SHAPE_X = 'X'
+SHAPE_O = 'O'
 
 
 class Board:
@@ -16,12 +18,12 @@ class Board:
 
     def __init__(self, computer_shape, level):
         self.board = [' '] * NUMBER_OF_BUTTONS
-        if computer_shape == 'X':
-            self.player_shape = 'O'
-            self.computer_shape = 'X'
+        if computer_shape == SHAPE_X:
+            self.player_shape = SHAPE_O
+            self.computer_shape = SHAPE_X
         else:
-            self.player_shape = 'X'
-            self.computer_shape = 'O'
+            self.player_shape = SHAPE_X
+            self.computer_shape = SHAPE_O
         self.move = 0
         self.field_delete = 0
         self.game_run = 0
@@ -43,26 +45,26 @@ class Board:
         """
         count = 0
         point = COMPUTER_WON
-        for i in range(0, NUMBER_OF_BUTTONS_TO_WIN):
+        for i in range(NUMBER_OF_BUTTONS_TO_WIN):
             if (self.board[i + 6] != " " and self.board[i] ==
                     self.board[i + 3] == self.board[i + 6]):
                 if self.board[i] == shape_player:
                     point = COMPUTER_LOST
                 return point
         point = COMPUTER_WON
-        if self.board[4] != " " and (self.board[2] == self.board[4]
-                                     == self.board[6] or (self.board[0]
-                                                          == self.board[4] == self.board[8])):
+        if (self.board[4] != " " and
+                (self.board[2] == self.board[4] == self.board[6] or
+                (self.board[0] == self.board[4] == self.board[8]))):
             if self.board[4] == shape_player:
                 point = COMPUTER_LOST
             return point
-        for i in range(0, 7, 3):
+        for i in range(0, NUMBER_OF_BUTTONS, NUMBER_OF_BUTTONS_TO_WIN):
             if (self.board[i + 2] != " " and self.board[i] == self.board[i + 1]
                     == self.board[i + 2]):
                 if self.board[i] == shape_computer:
                     return COMPUTER_WON
                 return COMPUTER_LOST
-        for i in range(0, NUMBER_OF_BUTTONS):
+        for i in range(NUMBER_OF_BUTTONS):
             if self.board[i] != " ":
                 count = count + 1
         if count == NUMBER_OF_BUTTONS:
