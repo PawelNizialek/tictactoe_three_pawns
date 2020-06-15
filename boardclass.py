@@ -41,9 +41,10 @@ class Board:
     def win_checker(self, shape_player, shape_computer):
         """
            Sprawdzenie czy podane ustwienie jest wygrywające.
-           Zwraca 1 jeśli wygrana komputera.
+           Zwraca 2 jeśli wygrana komputera.
            Zwraca -1 jeśli przegrana.
            Zwraca 0 jeśli remis.
+           Zwraca 1 jeśli plansza do gry jest pełna.
         """
         count = 0
         for i in range(NUMBER_OF_BUTTONS_TO_WIN):
