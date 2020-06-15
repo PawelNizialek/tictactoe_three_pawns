@@ -44,20 +44,18 @@ class Board:
            Zwraca 0 jeśli remis.
         """
         count = 0
-        point = COMPUTER_WON
         for i in range(NUMBER_OF_BUTTONS_TO_WIN):
             if (self.board[i + 6] != " " and
                     self.board[i] == self.board[i + 3] == self.board[i + 6]):
                 if self.board[i] == shape_player:
-                    point = COMPUTER_LOST
-                return point
-        point = COMPUTER_WON
+                    return COMPUTER_LOST
+                return COMPUTER_WON
         if (self.board[4] != " " and
                 (self.board[2] == self.board[4] == self.board[6] or
                  (self.board[0] == self.board[4] == self.board[8]))):
             if self.board[4] == shape_player:
-                point = COMPUTER_LOST
-            return point
+                return COMPUTER_LOST
+            return COMPUTER_WON
         for i in range(0, NUMBER_OF_BUTTONS, NUMBER_OF_BUTTONS_TO_WIN):
             if (self.board[i + 2] != " " and
                     self.board[i] == self.board[i + 1] == self.board[i + 2]):
