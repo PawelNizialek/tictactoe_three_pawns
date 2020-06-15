@@ -9,6 +9,7 @@ import boardclass
 
 CIRCLE = "O"
 CROSS = "X"
+BLANK_FIELD = ' '
 CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
                   (0, 3, 6), (1, 4, 7), (2, 5, 8),
                   (0, 4, 8), (2, 4, 6), ]
@@ -31,7 +32,7 @@ class BoardTest(unittest.TestCase):
 
     def test_win(self):
         for field_list in CHECKED_FIELDS:
-            board = [' '] * 9
+            board = [BLANK_FIELD] * 9
             for field in field_list:
                 board[field] = CROSS
             self.test_board.board = board
@@ -39,7 +40,7 @@ class BoardTest(unittest.TestCase):
 
     def test_defeat(self):
         for field_list in CHECKED_FIELDS:
-            board = [' '] * 9
+            board = [BLANK_FIELD] * 9
             for field in field_list:
                 board[field] = CIRCLE
             self.test_board.board = board
@@ -47,11 +48,11 @@ class BoardTest(unittest.TestCase):
 
     def test_no_win(self):
         for field_list in TIE_FIELDS:
-            board = [' '] * 9
+            board = [BLANK_FIELD] * 9
             for field in field_list:
                 board[field] = CROSS
             self.test_board.board = board
-            self.assertIsNone(self.test_board.win_checker(CROSS, CIRCLE))
+            self.assertFalse(self.test_board.win_checker(CROSS, CIRCLE))
 
 
 if __name__ == '__main__':

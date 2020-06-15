@@ -18,6 +18,7 @@ CHECKED_FIELDS = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
 POSSIBILITIES_OF_WINNING = 8
 CROSS = 'X'
 CIRCLE = 'O'
+BLANK_FIELD = ' '
 
 GameBoard = bc.Board(CROSS, 0)
 GameBoardCopy = bc.Board(CROSS, 0)
@@ -41,7 +42,7 @@ def click(number, button_list, shape_tab):
                 computer(button_list, shape_tab)
         if win() == -1:
             win_signal(GameBoard.player_shape, button_list)
-        elif win() == 1:
+        elif win() == 2:
             win_signal(GameBoard.computer_shape, button_list)
 
 
@@ -83,8 +84,8 @@ def player(number, button_list):
         if GameBoard.field_delete == 0:
             if 0 <= move < NUMBER_OF_BUTTONS:
                 if GameBoard.board[move] == GameBoard.player_shape and GameBoard.field_delete == 0:
-                    GameBoard.board[move] = ' '
-                    button_number_changer(move, ' ', 'midnight blue', button_list)
+                    GameBoard.board[move] = BLANK_FIELD
+                    button_number_changer(move, BLANK_FIELD, 'midnight blue', button_list)
                     GameBoard.field_delete = 1
             return 0
 
@@ -109,24 +110,24 @@ def minmax(depth=0, max_min=1):
         Zwraca indeks najlepszego posunięcia dla komputera.
     """
     result = GameBoardCopy.win_checker(GameBoard.player_shape, GameBoard.computer_shape)
-    if result is not None:
+    if result:
         return result
     if max_min:
         best_score = BEST_MOVE_MIN_SCORE
         for i, field in enumerate(GameBoardCopy.board):
-            if GameBoardCopy.board[i] == " ":
+            if GameBoardCopy.board[i] == BLANK_FIELD:
                 GameBoardCopy.board[i] = GameBoard.computer_shape
                 score = minmax(depth + 1, 0)
-                GameBoardCopy.board[i] = " "
+                GameBoardCopy.board[i] = BLANK_FIELD
                 if best_score < score:
                     best_score = score
     else:
         best_score = BEST_MOVE_MAX_SCORE
         for i, field in enumerate(GameBoardCopy.board):
-            if GameBoardCopy.board[i] == ' ':
+            if GameBoardCopy.board[i] == BLANK_FIELD:
                 GameBoardCopy.board[i] = GameBoard.player_shape
                 score = minmax(depth + 1, 1)
-                GameBoardCopy.board[i] = ' '
+                GameBoardCopy.board[i] = BLANK_FIELD
                 if best_score > score:
                     best_score = score
     return best_score
@@ -139,7 +140,7 @@ def minmax_for_three_pawns(min_max_time, shape_tab, depth, max, place_number=0):
     time_start_min_max = min_max_time
     pawn_to_remove = place_number
     result = GameBoardCopy.win_checker(GameBoard.player_shape, GameBoard.computer_shape)
-    if result is not None:
+    if result:
         return result
     if GameBoard.level == EASY:
         seconds_to_check = TIME_TO_THINK_EASY_MED
@@ -160,34 +161,34 @@ def minmax_for_three_pawns(min_max_time, shape_tab, depth, max, place_number=0):
     if max:
         best_score = BEST_MOVE_MIN_SCORE
         for i, field in enumerate(GameBoardCopy.board):
-            if GameBoardCopy.board[i] == " ":
+            if GameBoardCopy.board[i] == BLANK_FIELD:
                 for j in NUMBER_OF_BUTTONS_TO_WIN:
                     index = shape_tab_edit(j, GameBoard.computer_shape, shape_tab)
-                    GameBoardCopy.board[index] = " "
+                    GameBoardCopy.board[index] = BLANK_FIELD
                     GameBoardCopy.board[i] = GameBoard.computer_shape
 
                     score = minmax_for_three_pawns(time_start_min_max,
                                                    shape_tab, depth + 1, 0, pawn_to_remove)
 
                     GameBoardCopy.board[index] = GameBoard.computer_shape
-                    GameBoardCopy.board[i] = " "
+                    GameBoardCopy.board[i] = BLANK_FIELD
 
                     if best_score < score:
                         best_score = score
     else:
         best_score = BEST_MOVE_MAX_SCORE
         for i, field in enumerate(GameBoardCopy.board):
-            if GameBoardCopy.board[i] == ' ':
+            if GameBoardCopy.board[i] == BLANK_FIELD:
                 for j in NUMBER_OF_BUTTONS_TO_WIN:
                     index = shape_tab_edit(j, GameBoard.player_shape, shape_tab)
-                    GameBoardCopy.board[index] = " "
+                    GameBoardCopy.board[index] = BLANK_FIELD
                     GameBoardCopy.board[i] = GameBoard.player_shape
 
                     score = minmax_for_three_pawns(time_start_min_max,
                                                    shape_tab, depth + 1, 1, pawn_to_remove)
 
                     GameBoardCopy.board[index] = GameBoard.player_shape
-                    GameBoardCopy.board[i] = " "
+                    GameBoardCopy.board[i] = BLANK_FIELD
 
                     if best_score > score:
                         best_score = score
@@ -215,11 +216,11 @@ def computer(button_list, shape_tab):
 
     if len(shape_tab) > 2:
         for i, field in enumerate(GameBoardCopy.board):
-            if GameBoardCopy.board[i] == " ":
+            if GameBoardCopy.board[i] == BLANK_FIELD:
                 for computer_shape_number in NUMBER_OF_BUTTONS_TO_WIN:
                     remove = shape_tab_edit(computer_shape_number,
                                             GameBoard.computer_shape, shape_tab)
-                    GameBoardCopy.board[remove] = ' '
+                    GameBoardCopy.board[remove] = BLANK_FIELD
                     GameBoardCopy.board[i] = GameBoard.computer_shape
 
                     min_max_time = time.time()
@@ -227,7 +228,7 @@ def computer(button_list, shape_tab):
                                                     shape_tab, 0, 0, computer_shape_number)
 
                     GameBoardCopy.board[remove] = GameBoard.computer_shape
-                    GameBoardCopy.board[i] = ' '
+                    GameBoardCopy.board[i] = BLANK_FIELD
 
                     if best_score <= points:
                         best_score = points
@@ -237,18 +238,18 @@ def computer(button_list, shape_tab):
                 if points == 1:
                     break
 
-        GameBoard.board[best_place_to_remove] = ' '
-        button_number_changer(best_place_to_remove, ' ', color, button_list)
+        GameBoard.board[best_place_to_remove] = BLANK_FIELD
+        button_number_changer(best_place_to_remove, BLANK_FIELD, color, button_list)
         GameBoard.board[move] = GameBoard.computer_shape
         button_number_changer(move, GameBoard.computer_shape, color, button_list)
 
     else:
         for i, field in enumerate(GameBoardCopy.board):
-            if GameBoardCopy.board[i] == " ":
+            if GameBoardCopy.board[i] == BLANK_FIELD:
                 GameBoardCopy.board[i] = GameBoard.computer_shape
 
                 points = minmax(0, 0)
-                GameBoardCopy.board[i] = ' '
+                GameBoardCopy.board[i] = BLANK_FIELD
 
                 if best_score <= points:
                     best_score = points
@@ -291,8 +292,8 @@ def reset(button_list):
     GameBoard.field_delete = 0
 
     for i, field in enumerate(GameBoard.board):
-        button_number_changer(i, " ", 'black', button_list)
-        GameBoard.board[i] = " "
+        button_number_changer(i, BLANK_FIELD, 'black', button_list)
+        GameBoard.board[i] = BLANK_FIELD
 
 
 def set_game(shape_number, level_number, button_list):

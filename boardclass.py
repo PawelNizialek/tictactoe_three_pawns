@@ -4,10 +4,12 @@
 NUMBER_OF_BUTTONS = 9
 NUMBER_OF_BUTTONS_TO_WIN = 3
 COMPUTER_LOST = -1
-COMPUTER_WON = 1
+COMPUTER_WON = 2
 TIE = 0
+FULL_BOARD = 1
 CROSS = 'X'
 CIRCLE = 'O'
+BLANK_FIELD = ' '
 
 
 class Board:
@@ -17,7 +19,7 @@ class Board:
     """
 
     def __init__(self, computer_shape, level):
-        self.board = [' '] * NUMBER_OF_BUTTONS
+        self.board = [BLANK_FIELD] * NUMBER_OF_BUTTONS
         if computer_shape == CROSS:
             self.player_shape = CIRCLE
             self.computer_shape = CROSS
@@ -45,7 +47,7 @@ class Board:
         """
         count = 0
         for i in range(NUMBER_OF_BUTTONS_TO_WIN):
-            if (self.board[i + 6] != " " and
+            if (self.board[i + 6] != BLANK_FIELD and
                     self.board[i] == self.board[i + 3] == self.board[i + 6]):
                 if self.board[i] == shape_player:
                     return COMPUTER_LOST
@@ -57,13 +59,14 @@ class Board:
                 return COMPUTER_LOST
             return COMPUTER_WON
         for i in range(0, NUMBER_OF_BUTTONS, NUMBER_OF_BUTTONS_TO_WIN):
-            if (self.board[i + 2] != " " and
+            if (self.board[i + 2] != BLANK_FIELD and
                     self.board[i] == self.board[i + 1] == self.board[i + 2]):
                 if self.board[i] == shape_computer:
                     return COMPUTER_WON
                 return COMPUTER_LOST
         for i in range(NUMBER_OF_BUTTONS):
-            if self.board[i] != " ":
+            if self.board[i] != BLANK_FIELD:
                 count = count + 1
         if count == NUMBER_OF_BUTTONS:
-            return TIE
+            return FULL_BOARD
+        return TIE
