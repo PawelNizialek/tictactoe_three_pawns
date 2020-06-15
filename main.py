@@ -81,15 +81,14 @@ def player(number, button_list):
     else:
         move = int(number) - 1
         if GameBoard.field_delete == 0:
-            if move in range(NUMBER_OF_BUTTONS):
-                print(move)
+            if 0 <= move < NUMBER_OF_BUTTONS:
                 if GameBoard.board[move] == GameBoard.player_shape and GameBoard.field_delete == 0:
                     GameBoard.board[move] = ' '
                     button_number_changer(move, ' ', 'midnight blue', button_list)
                     GameBoard.field_delete = 1
             return 0
 
-        if move in range(NUMBER_OF_BUTTONS):
+        if 0 <= move < NUMBER_OF_BUTTONS:
             if (GameBoard.board[move] == GameBoard.computer_shape
                     or GameBoard.board[move] == GameBoard.player_shape):
                 return 0
